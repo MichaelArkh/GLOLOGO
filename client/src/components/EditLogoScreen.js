@@ -173,7 +173,7 @@ class EditLogoScreen extends Component {
                                     </div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-5">
+                                        <div className="col s5">
                                             <div className="panel-body">
                                                 <form onSubmit={e => {
                                                     e.preventDefault();
@@ -253,7 +253,7 @@ class EditLogoScreen extends Component {
                                                 {error && <p>Error :( Please try again</p>}
                                             </div>
                                         </div>
-                                        <div className="col-7">
+                                        <div className="col s7">
                                         <LogoWorkspace text={this.state.text} textColor={this.state.textColor} fontSize={this.state.fontSize}
                             backgroundColor={this.state.backgroundColor} borderColor={this.state.borderColor} borderRadius={this.state.borderRadius}
                             borderWidth={this.state.borderWidth} padding={this.state.padding} margin={this.state.margin}/>

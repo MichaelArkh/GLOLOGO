@@ -32,7 +32,7 @@ class HomeScreen extends Component {
 
                     return (
                         <div className="container row mx-auto" style={{width: '80%'}}>
-                            <div className="col-4">
+                            <div className="col s4">
                                 <h3>Recent Work</h3>
                                 {data.logos.sort((a,b) => this.sortdata(a,b)).map((logo, index) => (
                                     <div key={index} className='home_logo_link'
@@ -46,7 +46,7 @@ class HomeScreen extends Component {
                                     </div>
                                 ))}
                             </div>
-                            <div className="col-8">
+                            <div className="col s8">
                                 <div id="home_banner_container">
                                     @todo<br />
                                     Gologolo

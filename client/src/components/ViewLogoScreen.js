@@ -71,7 +71,7 @@ class ViewLogoScreen extends Component {
                             </div>
                             </div>
                             <div className="row">
-                            <div className="panel-body col-5" style={{ borderRight: '2px solid #bababa'}}>
+                            <div className="panel-body col s5" style={{ borderRight: '2px solid #bababa'}}>
                                 <dl>
                                     <dt>Text:</dt>
                                     <dd>{data.logo.text}</dd>
@@ -122,7 +122,7 @@ class ViewLogoScreen extends Component {
                                     )}
                                 </Mutation>
                             </div>
-                            <div className="col-7">
+                            <div className="col s7">
                                 <LogoWorkspace text={data.logo.text} textColor={data.logo.color} backgroundColor={data.logo.backgroundColor}
                                 borderColor={data.logo.borderColor} fontSize={data.logo.fontSize} borderRadius={data.logo.borderRadius}
                                 borderWidth={data.logo.borderWidth} padding={data.logo.padding} margin={data.logo.margin}/>
