@@ -20,6 +20,7 @@ var LogoSchema = new mongoose.Schema({
   // borderradius borderwidth padding margin lastupdate
   id: String,
   email: String,
+  name: String,
   text: [textSchema],
   imgs: [imgSchema],
   backgroundColor: String,

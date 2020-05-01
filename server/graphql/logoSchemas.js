@@ -100,6 +100,9 @@ var logoType = new GraphQLObjectType({
             _id: {
                 type: GraphQLString
             },
+            name: {
+                type: GraphQLString
+            },
             email: {
                 type: GraphQLString
             },
@@ -196,6 +199,9 @@ var mutation = new GraphQLObjectType({
                     email: {
                         type: new GraphQLNonNull(GraphQLString)
                     },
+                    name: {
+                        type: new GraphQLNonNull(GraphQLString)
+                    },
                     text: {
                         type: new GraphQLNonNull(GraphQLList(textTypeInput))
                     },
@@ -240,6 +246,9 @@ var mutation = new GraphQLObjectType({
                         name: 'id',
                         type: new GraphQLNonNull(GraphQLString)
                     },
+                    name: {
+                        type: new GraphQLNonNull(GraphQLString)
+                    },
                     email: {
                         type: new GraphQLNonNull(GraphQLString)
                     },
@@ -272,7 +281,7 @@ var mutation = new GraphQLObjectType({
                     }
                 },
                 resolve(root, params) {
-                    return LogoModel.findByIdAndUpdate(params.id, { email: params.email, text: params.text,
+                    return LogoModel.findByIdAndUpdate(params.id, { email: params.email, name: params.name, text: params.text,
                         backgroundColor: params.backgroundColor, borderColor: params.borderColor, borderRadius: params.borderRadius, borderWidth: params.borderWidth,
                         padding: params.padding, margin: params.margin, lastUpdate: new Date() }, function (err) {
                         if (err) return next(err);
