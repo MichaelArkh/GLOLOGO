@@ -6,10 +6,12 @@ import { Query } from 'react-apollo';
 import Navbar from './Navbar.js';
 import WelcomeScreen from './WelcomeScreen';
 import Cookie from 'js-cookie';
+var jwtDecode = require('jwt-decode');
 
 const GET_LOGOS = gql`
+query email($email: String!)
   {
-    logosE(email: "sample1@gmail.com") {
+    logosE(email: $email) {
       _id
       name
       lastUpdate
@@ -67,7 +69,7 @@ class HomeScreen extends Component {
         return (
             <div>
                 {login ?
-                    <Query pollInterval={500} query={GET_LOGOS}>
+                    <Query pollInterval={500} query={GET_LOGOS} variables={{email: !(typeof Cookie.get('jwt') === 'undefined') ? jwtDecode(Cookie.get('jwt'))["email"] : ""}}>
                         {({ loading, error, data }) => {
                             if (loading) return 'Loading...';
                             if (error) return `Error! ${error.message}`;
