@@ -5,6 +5,8 @@ import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 import LogoWorkspace from './LogoWorkspace';
 import Modal from './Modal.js';
+import Cookie from 'js-cookie';
+import Navbar from './Navbar.js';
 
 const GET_LOGO = gql`
     query logo($logoId: String) {
@@ -38,7 +40,8 @@ class ViewLogoScreen extends Component {
         super(props);
 
         this.state = {
-            modalShow: false
+            modalShow: false,
+            cookieOk: false
         }
     }
 
@@ -48,8 +51,38 @@ class ViewLogoScreen extends Component {
         });
     }
 
+    componentWillMount = () => {
+        const query = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+              },
+            body: JSON.stringify({mycookie: Cookie.get('jwt')})
+        };
+
+        fetch('http://localhost:3000/verify', query).then(
+            res => {
+                res.text().then( ok =>{
+                    this.setState({
+                        cookieOk: ok === 'true'
+                    });
+                })
+            }
+        );
+    }
+
+    processLogoutCallback = () => {
+        
+    }
+
     render() {
+        let cookie = this.state.cookieOk;
+        console.log(cookie);
         return (
+            <div>
+                <Navbar currentScreen="View Logo" logoutCallback={this.processLogoutCallback}/>
+                { cookie ?
             <Query pollInterval={500} query={GET_LOGO} variables={{ logoId: this.props.match.params.id }}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
@@ -129,10 +162,15 @@ class ViewLogoScreen extends Component {
                             </div>
                         </div>
                         </div>
-        );
+        ); 
     }
 }
             </Query >
+            : <div>
+                
+                <h5>Cookie not ok, please relogin.</h5>
+                </div>}
+            </div>
         );
     }
 }

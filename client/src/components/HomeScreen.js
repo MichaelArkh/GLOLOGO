@@ -3,18 +3,30 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import Navbar from './Navbar.js';
+import WelcomeScreen from './WelcomeScreen';
+import Cookie from 'js-cookie';
 
 const GET_LOGOS = gql`
   {
-    logos {
+    logosE(email: "sample1@gmail.com") {
       _id
-      text
+      name
       lastUpdate
     }
   }
 `;
 
 class HomeScreen extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loggedin: false,
+            cookieok: false
+        };
+    }
 
     sortdata(a, b) {
         //needs to return the lowest difference first
@@ -23,48 +35,88 @@ class HomeScreen extends Component {
         return data2 - data1;
     }
 
-    render() {
-        return (
-            <Query pollInterval={500} query={GET_LOGOS}>
-                {({ loading, error, data }) => {
-                    if (loading) return 'Loading...';
-                    if (error) return `Error! ${error.message}`;
+    processLogoutCallback = () => {
+        this.setState({
+            cookieOk: false
+        });
+    }
 
-                    return (
-                        <div className="container row mx-auto" style={{width: '80%'}}>
-                            <div className="col s4">
-                                <h3>Recent Work</h3>
-                                {data.logos.sort((a,b) => this.sortdata(a,b)).map((logo, index) => (
-                                    <div key={index} className='home_logo_link'
-                                        style={{ cursor: "pointer" }}>
-                                        <Link to={`/view/${logo._id}`}>
-                                            <button className="btn btn-outline-secondary" style={{padding: '0px 10px 0px 10px',
-                                                                                                  marginBottom: '5px'}}>
-                                                {logo.text}
-                                            </button>
-                                        </Link>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="col s8">
-                                <div id="home_banner_container">
-                                    @todo<br />
+    componentWillMount = () => {
+        const query = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ mycookie: Cookie.get('jwt') })
+        };
+
+        fetch('http://localhost:3000/verify', query).then(
+            res => {
+                res.text().then(ok => {
+                    this.setState({
+                        cookieOk: ok === 'true'
+                    });
+                })
+            }
+        );
+    }
+
+    render() {
+        var login = this.state.cookieOk;
+        return (
+            <div>
+                {login ?
+                    <Query pollInterval={500} query={GET_LOGOS}>
+                        {({ loading, error, data }) => {
+                            if (loading) return 'Loading...';
+                            if (error) return `Error! ${error.message}`;
+                            return (
+                                <div>
+                                    <Navbar currentScreen="Home Screen" logoutCallback={this.processLogoutCallback}/>
+                                    <div className="container row">
+                                        <div className="col s4">
+                                            <h3>Recent Work</h3>
+                                            {data.logosE.sort((a, b) => this.sortdata(a, b)).map((logo, index) => (
+                                                <div key={index} className='home_logo_link'
+                                                    style={{ cursor: "pointer" }}>
+                                                    <Link to={`/view/${logo._id}`}>
+                                                        <button className="btn btn-outline-secondary" style={{
+                                                            padding: '0px 10px 0px 10px',
+                                                            marginBottom: '5px'
+                                                        }}>
+                                                            {logo.name}
+                                                        </button>
+                                                    </Link>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="col s8">
+                                            <div id="home_banner_container">
+                                                @todo<br />
                                     Gologolo
                                 </div>
-                                <div>
-                                    <Link id="add_logo_button" to="/create">
-                                        <button className="btn btn-outline-* btn-lg" style={{backgroundColor: '#deba2c',
-                                                                                            margin: '5px'}}>
-                                            Add Logo
+                                            <div>
+                                                <Link id="add_logo_button" to="/create">
+                                                    <button className="btn btn-outline-* btn-lg" style={{
+                                                        backgroundColor: '#deba2c',
+                                                        margin: '5px'
+                                                    }}>
+                                                        Add Logo
                                         </button>
-                                    </Link>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    );
+                            );
+                        }
+                        }
+                    </Query >
+                    :
+                    <div><WelcomeScreen /></div>
                 }
-                }
-            </Query >
+            </div>
         );
     }
 }
