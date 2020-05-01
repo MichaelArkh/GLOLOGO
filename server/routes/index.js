@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.get(
 	"/auth/google",
-	passport.authenticate("google", { scope: "email" })
+	passport.authenticate("google", {prompt: 'select_account', scope: "email" })
 );
 
 router.get(
