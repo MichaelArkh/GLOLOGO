@@ -1,12 +1,12 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var graphqlHTTP = require('express-graphql');
 var schema = require('./graphql/logoSchemas');
 var cors = require("cors");
+var passport = require("passport");
 
 mongoose.connect('mongodb://localhost/node-graphql', { promiseLibrary: require('bluebird'), useNewUrlParser: true })
   .then(() =>  console.log('connection successful'))
@@ -14,6 +14,7 @@ mongoose.connect('mongodb://localhost/node-graphql', { promiseLibrary: require('
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var verifyRouter = require('./routes/verify');
 
 var app = express();
 
@@ -24,11 +25,11 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/verify', verifyRouter);
 app.use('*', cors());
 app.use('/graphql', cors(), graphqlHTTP({
   schema: schema,
@@ -51,5 +52,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+app.use(passport.initialize());
+require("./config/passport");
+
+
 
 module.exports = app;
