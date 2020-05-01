@@ -14,7 +14,6 @@ router.post('/', urlencodedParser, function(req, res) {
         jwt.verify(req.body.mycookie, 'superprivatesecret');
         res.send('true');
     } catch(err){
-        console.log(req);
         res.send('false');
     }
 });
