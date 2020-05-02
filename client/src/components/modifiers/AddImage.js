@@ -1,4 +1,4 @@
-import { Modal, TextInput, Range } from "react-materialize";
+import { Range } from "react-materialize";
 import React, { Component } from "react";
 
 const defaults = {

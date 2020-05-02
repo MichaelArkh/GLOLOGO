@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import { Link } from 'react-router-dom';
 import Navbar from './Navbar.js';
 import LogoWorkspace from './LogoWorkspace';
 import Cookie from 'js-cookie';
-import { Modal, TextInput, Range } from 'react-materialize';
+import { Modal, Range } from 'react-materialize';
 import AddText from './modifiers/AddText.js';
 import AddImage from './modifiers/AddImage.js';
 import EditText from './modifiers/EditText.js';
@@ -82,6 +81,25 @@ class CreateLogoScreen extends Component {
             padding: 5,
             margin: 10
         }
+
+        const query = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ mycookie: Cookie.get('jwt') })
+        };
+
+        fetch('http://localhost:3000/verify', query).then(
+            res => {
+                res.text().then(ok => {
+                    this.setState({
+                        cookieOk: ok === 'true'
+                    });
+                })
+            }
+        );
     }
 
     updateTextColor = (event) => {
@@ -157,26 +175,6 @@ class CreateLogoScreen extends Component {
         return length > 0;
     }
 
-    componentWillMount = () => {
-        const query = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ mycookie: Cookie.get('jwt') })
-        };
-
-        fetch('http://localhost:3000/verify', query).then(
-            res => {
-                res.text().then(ok => {
-                    this.setState({
-                        cookieOk: ok === 'true'
-                    });
-                })
-            }
-        );
-    }
     processLogoutCallback = () => {
 
     }
@@ -184,7 +182,6 @@ class CreateLogoScreen extends Component {
     handleSubmitTextCallback = (newlogo) => {
         var newlist = this.state.text
         newlist.push(newlogo);
-        console.log(newlist);
         this.setState({
             text: newlist
         });
@@ -193,7 +190,6 @@ class CreateLogoScreen extends Component {
     handleSubmitImageCallback = (newlogo) => {
         var newlist = this.state.imgs
         newlist.push(newlogo);
-        console.log(newlist);
         this.setState({
             imgs: newlist
         });
@@ -235,6 +231,18 @@ class CreateLogoScreen extends Component {
         this.setState({
             imgs: logo
         });
+    }
+
+    updateTextPos = (newText) => {
+        this.setState({
+            text: newText
+        })
+    }
+
+    updateImagePos = (newImages) => {
+        this.setState({
+            imgs: newImages
+        })
     }
 
     render() {
@@ -412,10 +420,8 @@ class CreateLogoScreen extends Component {
                                             </div>
                                         </div>
 
-                                        <div className="col s7">
-                                            {/* <LogoWorkspace text={this.state.text} textColor={this.state.textColor} fontSize={this.state.fontSize}
-                                            backgroundColor={this.state.backgroundColor} borderColor={this.state.borderColor} borderRadius={this.state.borderRadius}
-                                            borderWidth={this.state.borderWidth} padding={this.state.padding} margin={this.state.margin} /> */}
+                                        <div className="col s7" style={{overflow: 'auto'}}>
+                                            <LogoWorkspace values={JSON.parse(JSON.stringify(this.state))} updatedImageCallback={(newImage) => this.updateImagePos(newImage)}updatedTextCallback={(newText) => this.updateTextPos(newText)}/>
                                         </div>
                                     </div>
                                 </div>

@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
+import Draggable from 'react-draggable';
 
 // THIS IS HOW WE DISPLAY THE LOGO, IN THIS COMPONENT
 class LogoWorkspace extends Component {
-    
-    getText(){
-        let text = this.props.text;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            text: props.values.text,
+            imgs: props.values.imgs
+        };
+    }
+
+    getText(text) {
         let newText = "";
-        for(var i = 0; i < text.length; i++){
-            if(text.charAt(i) === ' '){
+        for (var i = 0; i < text.length; i++) {
+            if (text.charAt(i) === ' ') {
                 newText += "\u00a0"
             } else {
                 newText += text.charAt(i);
@@ -16,26 +25,53 @@ class LogoWorkspace extends Component {
         return newText;
     }
 
+    controlledTextDrag = (index, pos) => {
+        var texts = this.props.values.text;
+        texts[index].position[0] = pos.x;
+        texts[index].position[1] = pos.y;
+        this.props.updatedTextCallback(texts);
+    }
+
+    controlledImgDrag = (index, pos) => {
+        var texts = this.props.values.imgs;
+        texts[index].position[0] = pos.x;
+        texts[index].position[1] = pos.y;
+        this.props.updatedImageCallback(texts);
+    }
 
     render() {
         const styles = {
             container: {
-                color: this.props.textColor,
-                fontSize: this.props.fontSize + "pt",
-                border:  this.props.borderWidth + "px" + " solid " + this.props.borderColor,
-                backgroundColor: this.props.backgroundColor,
+                border: this.props.values.borderWidth + "px" + " solid " + this.props.values.borderColor,
+                backgroundColor: this.props.values.backgroundColor,
                 //borderColor: this.props.logo.borderColor,
-                borderRadius: this.props.borderRadius + "px",
+                borderRadius: this.props.values.borderRadius + "px",
                 //borderWidth: this.props.logo.borderWidth + "px",
-                padding: this.props.padding + "px",
-                margin: this.props.margin + "px",
+                padding: this.props.values.padding + "px",
+                margin: this.props.values.margin + "px",
+                minWidth: this.props.values.dimentions[0],
+                minHeight: this.props.values.dimentions[1],
+                maxWidth: this.props.values.dimentions[0],
+                maxHeight: this.props.values.dimentions[1],
+                position: 'relative'
+            },
+            imgs: {
+                cursor: 'pointer',
                 maxWidth: 'max-content',
-                minWidth: 'min-content'
+                maxHeight: 'max-content'
             }
         }
-        //console.log(styles.container.border);
         return (
-                    <div style={ styles.container }>{this.getText()}</div>
+            <div style={styles.container}>{this.props.values.text.map((e, index) => (
+                <Draggable key={index} onDrag={(e, pos) => this.controlledTextDrag(index, pos)} position={{ x: this.props.values.text[index].position[0], y: this.props.values.text[index].position[1] }} bounds="parent">
+                    <div style={{ fontSize: e.fontSize, color: e.color, cursor: 'pointer', height: 'auto', width: 'auto', position: 'absolute' }}>{this.getText(e.content)}</div>
+                </Draggable>
+            ))
+            }{this.props.values.imgs.map((e, index) => (
+                <Draggable key={index} onDrag={(e, pos) => this.controlledImgDrag(index, pos)} position={{ x: this.props.values.imgs[index].position[0], y: this.props.values.imgs[index].position[1] }} bounds="parent">
+                        <img draggable="false" alt="" style={{width: e.scale + '%', cursor: 'pointer', position: 'absolute'}} src={e.link}/>
+                </Draggable>
+            ))}</div>
         )
     }
 }

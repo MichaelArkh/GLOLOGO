@@ -1,4 +1,3 @@
-import { Modal, TextInput, Range } from "react-materialize";
 import React, { Component } from "react";
 
 class Dimentions extends Component {

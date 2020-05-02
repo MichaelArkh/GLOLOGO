@@ -28,22 +28,7 @@ class HomeScreen extends Component {
             loggedin: false,
             cookieok: false
         };
-    }
 
-    sortdata(a, b) {
-        //needs to return the lowest difference first
-        let data1 = new Date(a.lastUpdate);
-        let data2 = new Date(b.lastUpdate);
-        return data2 - data1;
-    }
-
-    processLogoutCallback = () => {
-        this.setState({
-            cookieOk: false
-        });
-    }
-
-    componentWillMount = () => {
         const query = {
             method: 'POST',
             headers: {
@@ -62,6 +47,19 @@ class HomeScreen extends Component {
                 })
             }
         );
+    }
+
+    sortdata(a, b) {
+        //needs to return the lowest difference first
+        let data1 = new Date(a.lastUpdate);
+        let data2 = new Date(b.lastUpdate);
+        return data2 - data1;
+    }
+
+    processLogoutCallback = () => {
+        this.setState({
+            cookieOk: false
+        });
     }
 
     render() {

@@ -1,4 +1,4 @@
-import { Modal, TextInput, Range } from "react-materialize";
+import { Range } from "react-materialize";
 import React, { Component } from "react";
 
 const defaults = {
@@ -14,7 +14,7 @@ class EditText extends Component {
 
         this.state = {
             content: this.props.logo.content,
-            color: this.props.color,
+            color: this.props.logo.color,
             fontSize: this.props.logo.fontSize,
             position: this.props.logo.position
         }
