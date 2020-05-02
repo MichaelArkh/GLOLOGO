@@ -6,9 +6,11 @@ import Navbar from './Navbar.js';
 import LogoWorkspace from './LogoWorkspace';
 import Cookie from 'js-cookie';
 import { Modal, TextInput, Range } from 'react-materialize';
-import AddText from './AddText.js';
-import AddImage from './AddImage.js';
-import Dimentions from './Dimentions.js';
+import AddText from './modifiers/AddText.js';
+import AddImage from './modifiers/AddImage.js';
+import EditText from './modifiers/EditText.js';
+import EditImage from './modifiers/EditImage.js';
+import Dimentions from './modifiers/Dimentions.js';
 var jwtDecode = require('jwt-decode');
 
 
@@ -203,6 +205,38 @@ class CreateLogoScreen extends Component {
         });
     }
 
+    handleEditTextCallback = (newlogo, pos) => {
+        var logo = this.state.text;
+        logo[pos] = newlogo;
+        this.setState({
+            text: logo
+        });
+    }
+
+    handleEditImgCallback = (newimg, pos) => {
+        var logo = this.state.imgs;
+        logo[pos] = newimg;
+        this.setState({
+            imgs: logo
+        });
+    }
+
+    handleDeleteText = (index) => {
+        var logo = this.state.text;
+        logo.splice(index, 1);
+        this.setState({
+            text: logo
+        });
+    }
+
+    handleDeleteImg = (index) => {
+        var logo = this.state.imgs;
+        logo.splice(index, 1);
+        this.setState({
+            imgs: logo
+        });
+    }
+
     render() {
         let cookie = this.state.cookieOk;
         return (
@@ -227,6 +261,12 @@ class CreateLogoScreen extends Component {
                                                     });
                                                 }}>
                                                     <div className="card-panel">
+                                                        <button className="btn btn-success " disabled={!this.isDisabled()}
+                                                            style={{ cursor: !this.isDisabled() ? 'initial' : 'pointer' }}>Submit</button> <p style={{
+                                                                visibility: !this.isDisabled() ? 'visible' : 'hidden',
+                                                                display: 'inline-block',
+                                                                color: 'grey'
+                                                            }}>Name must be non-null and cannot be all spaces</p>
                                                         <div className="card blue-grey darken-1">
                                                             <div className="card-content white-text">
                                                                 <span className="card-title">Text
@@ -234,22 +274,76 @@ class CreateLogoScreen extends Component {
                                                                         <AddText handleSubmit={this.handleSubmitTextCallback} />
                                                                     </Modal>
                                                                 </span>
+
+                                                                <table>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Content</th>
+                                                                            <th>Position</th>
+                                                                            <th>Size</th>
+                                                                            <th>Color</th>
+                                                                            <th>Controls</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {this.state.text.map((e, index) => (
+                                                                            <tr key={index}>
+                                                                                <td>{e["content"]}</td>
+                                                                                <td>{e["position"].toString()}</td>
+                                                                                <td>{e["fontSize"]}</td>
+                                                                                <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>
+                                                                                <td>
+                                                                                    <Modal header="Edit Text" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
+                                                                                        <EditText handleSubmit={this.handleEditTextCallback} pos={index} logo={e} />
+                                                                                    </Modal>
+                                                                                    <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteText(index)}>delete</i>
+                                                                                </td>
+                                                                            </tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
                                                             </div>
                                                         </div>
-                                                    
-                                                    <div className="card blue-grey darken-1">
-                                                        <div className="card-content white-text">
-                                                            <span className="card-title">Images
-                                                        <Modal header="Add Image" trigger={<div style={{ display: 'inline-block', float: 'right', cursor: 'pointer' }}><i className="small material-icons">add_circle</i></div>}>
-                                                                    <AddImage handleSubmit={this.handleSubmitImageCallback}/>
-                                                                </Modal>
-                                                            </span>
-                                                        </div>
-                                                    </div>   
 
-                                                    <div className="card blue-grey darken-1">
-                                                        <div className="card-content white-text">
-                                                            <span className="card-title">Extra Options</span>
+                                                        <div className="card blue-grey darken-1">
+                                                            <div className="card-content white-text">
+                                                                <span className="card-title">Images
+                                                        <Modal header="Add Image" trigger={<div style={{ display: 'inline-block', float: 'right', cursor: 'pointer' }}><i className="small material-icons">add_circle</i></div>}>
+                                                                        <AddImage handleSubmit={this.handleSubmitImageCallback} />
+                                                                    </Modal>
+                                                                </span>
+
+                                                                <table>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Min Url</th>
+                                                                            <th>Position</th>
+                                                                            <th>Scale</th>
+                                                                            <th>Controls</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {this.state.imgs.map((e, index) => (
+                                                                            <tr key={index}>
+                                                                                <td>{e["link"].substring(0,15)}</td>
+                                                                                <td>{e["position"].toString()}</td>
+                                                                                <td>{e["scale"] + " %"}</td>
+                                                                                <td>
+                                                                                    <Modal header="Edit Image" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
+                                                                                        <EditImage handleSubmit={this.handleEditImgCallback} pos={index} img={e} />
+                                                                                    </Modal>
+                                                                                    <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteImg(index)}>delete</i>
+                                                                                </td>
+                                                                            </tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="card blue-grey darken-1">
+                                                            <div className="card-content white-text">
+                                                                <span className="card-title">Extra Options</span>
                                                                 <div className="row">
                                                                     <div className="col s4">Logo Name:</div>
                                                                     <div className="col s8 input-field">
@@ -262,8 +356,8 @@ class CreateLogoScreen extends Component {
                                                                     <div className="col s4">Dimentions:</div>
                                                                     <div className="col s8">
                                                                         {this.state.dimentions[0]} x {this.state.dimentions[1]} &nbsp;&nbsp;
-                                                                        <Modal header="Edit Dimentions" trigger={<i style={{cursor: 'pointer'}} className="material-icons tiny">edit</i>} >
-                                                                            <Dimentions handleSubmit={this.handleSubmitDimentionsCallback}/>
+                                                                        <Modal header="Edit Dimentions" trigger={<i style={{ cursor: 'pointer' }} className="material-icons tiny">edit</i>} >
+                                                                            <Dimentions handleSubmit={this.handleSubmitDimentionsCallback} />
                                                                         </Modal>
                                                                     </div>
                                                                 </div>
@@ -309,37 +403,29 @@ class CreateLogoScreen extends Component {
                                                                         <Range min="4" max="100" defaultValue={this.state.padding} onChange={this.updatePadding} />
                                                                     </div>
                                                                 </div>
+                                                            </div>
                                                         </div>
-                                                    </div>   
+                                                    </div>
+                                                </form>
+                                                {loading && <p>Loading...</p>}
+                                                {error && <p>Error :( Please try again</p>}
                                             </div>
-
-
-                                                <button className="btn btn-success " disabled={!this.isDisabled()}
-                                                    style={{ cursor: !this.isDisabled() ? 'initial' : 'pointer' }}>Submit</button> <p style={{
-                                                        visibility: !this.isDisabled() ? 'visible' : 'hidden',
-                                                        display: 'inline-block',
-                                                        color: 'grey'
-                                                    }}>Name must be non-null and cannot be all spaces</p>
-                                            </form>
-                                            {loading && <p>Loading...</p>}
-                                            {error && <p>Error :( Please try again</p>}
                                         </div>
-                                    </div>
 
-                                    <div className="col s7">
-                                        {/* <LogoWorkspace text={this.state.text} textColor={this.state.textColor} fontSize={this.state.fontSize}
+                                        <div className="col s7">
+                                            {/* <LogoWorkspace text={this.state.text} textColor={this.state.textColor} fontSize={this.state.fontSize}
                                             backgroundColor={this.state.backgroundColor} borderColor={this.state.borderColor} borderRadius={this.state.borderRadius}
                                             borderWidth={this.state.borderWidth} padding={this.state.padding} margin={this.state.margin} /> */}
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
-                        )}
-                    </Mutation>
+                            )}
+                        </Mutation>
 
-                    :
-                <div>You must be logged in to do this!</div>
-                }
-            </div>
+                        :
+                        <div>You must be logged in to do this!</div>
+                    }
+                </div>
             </div >
         );
     }

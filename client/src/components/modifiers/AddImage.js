@@ -14,7 +14,7 @@ class AddImage extends Component {
 
         this.state = {
             link: "",
-            position: [0, 0],
+            position: [50, 50],
             scale: 50
         }
     }
@@ -62,12 +62,12 @@ class AddImage extends Component {
             <div>
                 <div className="row input-field">
                     <label>Link Src</label>
-                    <input label="Link Src" defaultValue="" style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleLinkChange} />
+                    <input label="Link Src" style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleLinkChange} />
                 </div>
                 <div className="row">
                     <div className="col s4">X Offset:</div>
                     <div className="col s8">
-                        <Range min="4" max="100" defaultValue="" onChange={this.handlexChange} />
+                        <Range min="4" max="100" onChange={this.handlexChange} />
                     </div>
                 </div>
                 <div className="row">
