@@ -95,8 +95,8 @@ var textTypeInput = new GraphQlInputObjectType({
 var logoType = new GraphQLObjectType({
     name: 'logo',
     fields: () => ({
-    // id email text[] imgs[] backgroundcolor bordercolor
-    // borderradius borderwidth padding margin lastupdate
+    // id name email text[] imgs[] backgroundcolor bordercolor
+    // dimentions borderradius borderwidth padding margin lastupdate
             _id: {
                 type: GraphQLString
             },

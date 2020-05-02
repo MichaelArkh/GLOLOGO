@@ -16,8 +16,8 @@ var imgSchema = new mongoose.Schema({
 });
 
 var LogoSchema = new mongoose.Schema({
-  // id email text[] imgs[] backgroundcolor bordercolor
-  // borderradius borderwidth padding margin lastupdate
+  // id name email text[] imgs[] backgroundcolor bordercolor
+  // dimentions borderradius borderwidth padding margin lastupdate
   id: String,
   email: String,
   name: String,

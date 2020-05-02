@@ -32,14 +32,13 @@ class Navbar extends Component {
 
     render() {
         const login = this.state.loggedin;
-        console.log(this.state.email);
         return (
             <div className="container " style={divStyle}>
                 {login ?
                     <div className="row" style={{marginBottom: '0px'}}>
-                        <div className="col s3"><h5><Link to="/">GologoLo Home</Link></h5></div>
-                        <div className="col s6 center-align"><h5>{this.state.currentScreen}</h5></div>
-                        <div className="col s3 center-align">
+                        <div className="col s4"><h5><Link to="/">GologoLo Home</Link></h5></div>
+                        <div className="col s4 center-align"><h5>{this.state.currentScreen}</h5></div>
+                        <div className="col s4 center-align">
                             <Link to="/"><button className="waves-effect waves-light btn-large" style={{lineHeight: '20px'}} onClick={this.logout}>{"Logout: " + this.state.email}</button></Link>
                         </div>
                     </div>
