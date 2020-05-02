@@ -2,39 +2,26 @@ import { Modal, TextInput, Range } from "react-materialize";
 import React, { Component } from "react";
 
 const defaults = {
-    content: "",
-    color: "#000000",
-    fontSize: 50,
-    position: [50, 50]
+    // link position[] scale
+    link: "",
+    position: [0, 0],
+    scale: 50
 };
 
-class AddText extends Component {
+class AddImage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            content: "",
-            color: "#000000",
-            fontSize: 50,
-            position: [50, 50]
+            link: "",
+            position: [0, 0],
+            scale: 50
         }
     }
 
-    handleTextChange = (event) => {
+    handleLinkChange = (event) => {
         this.setState({
-            content: event.target.value
-        });
-    }
-
-    handleColorChange = (event) => {
-        this.setState({
-            color: event.target.value
-        });
-    }
-
-    handleFontSizeChange = (event) => {
-        this.setState({
-            fontSize: parseInt(event.target.value)
+            link: event.target.value
         });
     }
 
@@ -52,8 +39,14 @@ class AddText extends Component {
         });
     }
 
+    handleScaleChange = (event) => {
+        this.setState({
+            scale: parseInt(event.target.value)
+        });
+    }
+
     isDisabled = () => {
-        return this.state.content === ""
+        return this.state.link === ""
     }
     doSubmit = () => {
         this.props.handleSubmit(this.state);
@@ -68,8 +61,8 @@ class AddText extends Component {
         return (
             <div>
                 <div className="row input-field">
-                    <label>Content(Text)</label>
-                    <input label="Content(Text)" defaultValue="" style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleTextChange} />
+                    <label>Link Src</label>
+                    <input label="Link Src" defaultValue="" style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleLinkChange} />
                 </div>
                 <div className="row">
                     <div className="col s4">X Offset:</div>
@@ -84,15 +77,9 @@ class AddText extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col s4">Color:</div>
+                    <div className="col s4">Scale:</div>
                     <div className="col s8">
-                        <input label="color" onChange={this.handleColorChange} type="color" />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col s4">Font Size:</div>
-                    <div className="col s8">
-                        <Range min="4" max="100" onChange={this.handleFontSizeChange} />
+                        <Range min="0" max="200" onChange={this.handleScaleChange} />
                     </div>
                 </div>
                 <button className={submitClass} onClick={this.doSubmit}>Submit</button>
@@ -101,4 +88,4 @@ class AddText extends Component {
     }
 }
 
-export default AddText;
+export default AddImage;

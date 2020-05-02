@@ -81,7 +81,7 @@ class HomeScreen extends Component {
                                             <h3>Recent Work</h3>
                                             {data.logosE.sort((a, b) => this.sortdata(a, b)).map((logo, index) => (
                                                 <div key={index} className='home_logo_link'
-                                                    style={{ cursor: "pointer" }}>
+                                                    >
                                                     <Link to={`/view/${logo._id}`}>
                                                         <button className="btn btn-outline-secondary" style={{
                                                             padding: '0px 10px 0px 10px',
