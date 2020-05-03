@@ -6,11 +6,6 @@ class LogoWorkspace extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            text: props.values.text,
-            imgs: props.values.imgs
-        };
     }
 
     getText(text) {
@@ -49,10 +44,11 @@ class LogoWorkspace extends Component {
                 //borderWidth: this.props.logo.borderWidth + "px",
                 padding: this.props.values.padding + "px",
                 margin: this.props.values.margin + "px",
-                minWidth: this.props.values.dimensions[0],
-                minHeight: this.props.values.dimensions[1],
-                maxWidth: this.props.values.dimensions[0],
-                maxHeight: this.props.values.dimensions[1],
+                width: (this.props.values.dimensions[0] + this.props.values.borderWidth*2 + this.props.values.padding*2),
+                height: (this.props.values.dimensions[1] + this.props.values.borderWidth*2 + this.props.values.padding*2),
+               // maxWidth: (this.props.values.dimensions[0] + this.props.values.borderWidth + this.props.values.margin + this.props.values.padding),
+                //maxHeight: (this.props.values.dimensions[1] + this.props.values.borderWidth + this.props.values.margin + this.props.values.padding),
+                //boxSizing: 'border-box',
                 position: 'relative'
             },
             imgs: {

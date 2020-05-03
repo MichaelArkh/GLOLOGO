@@ -88,8 +88,8 @@ class ViewLogoScreen extends Component {
     }
 
     downloadHandle = () => {
-        html2canvas(document.getElementById('workspace'), {allowTaint: true}).then(function(canvas) {
-            //var myImage = canvas.toDataURL("image/png");
+        html2canvas(document.getElementById('workspace'), {useCORS: true}).then(function(canvas) {
+            var myImage = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");;
             //window.open(myImage);
             console.log(canvas);
             document.body.appendChild(canvas);
@@ -137,7 +137,7 @@ class ViewLogoScreen extends Component {
                                                             <tbody>
                                                                 {data.logo.text.map((e, index) => (
                                                                     <tr key={index}>
-                                                                        <td>{e["content"]}</td>
+                                                                        <td>{e["content"].substring(0, 15)}</td>
                                                                         <td>{e["position"].toString()}</td>
                                                                         <td>{e["fontSize"]}</td>
                                                                         <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>

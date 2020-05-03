@@ -302,7 +302,7 @@ class EditLogoScreen extends Component {
                                                                     <tbody>
                                                                         {this.state.text.map((e, index) => (
                                                                             <tr key={index}>
-                                                                                <td>{e["content"]}</td>
+                                                                                <td>{e["content"].substring(0,15)}</td>
                                                                                 <td>{e["position"].toString()}</td>
                                                                                 <td>{e["fontSize"]}</td>
                                                                                 <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>
