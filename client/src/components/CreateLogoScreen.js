@@ -100,12 +100,6 @@ class CreateLogoScreen extends Component {
                 })
             }
         );
-
-        this.refCallback = element => {
-            if (element) {
-              console.log(element.getBoundingClientRect());
-            }
-          };
     }
 
     updateTextColor = (event) => {
@@ -203,7 +197,7 @@ class CreateLogoScreen extends Component {
 
     handleSubmitDimentionsCallback = (newlogo) => {
         this.setState({
-            dimentions: newlogo
+            dimensions: newlogo
         });
     }
 
@@ -318,15 +312,12 @@ class CreateLogoScreen extends Component {
                                                                 </table>
                                                             </div>
                                                         </div>
-                                                        <div ref={this.refCallback}>
-                                                            
-                                                        </div>
 
                                                         <div className="card blue-grey darken-1">
                                                             <div className="card-content white-text">
                                                                 <span className="card-title">Images
                                                         <Modal header="Add Image" trigger={<div style={{ display: 'inline-block', float: 'right', cursor: 'pointer' }}><i className="small material-icons">add_circle</i></div>}>
-                                                                        <AddImage handleSubmit={this.handleSubmitImageCallback} />
+                                                                        <AddImage bounds={this.state.dimensions} handleSubmit={this.handleSubmitImageCallback} />
                                                                     </Modal>
                                                                 </span>
 
@@ -347,7 +338,7 @@ class CreateLogoScreen extends Component {
                                                                                 <td>{e["scale"] + " %"}</td>
                                                                                 <td>
                                                                                     <Modal header="Edit Image" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
-                                                                                        <EditImage handleSubmit={this.handleEditImgCallback} pos={index} img={e} />
+                                                                                        <EditImage bounds={this.state.dimensions} handleSubmit={this.handleEditImgCallback} pos={index} img={e} />
                                                                                     </Modal>
                                                                                     <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteImg(index)}>delete</i>
                                                                                 </td>

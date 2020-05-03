@@ -8,6 +8,7 @@ import {Modal} from 'react-materialize';
 import Cookie from 'js-cookie';
 import Navbar from './Navbar.js';
 import jwtDecode from 'jwt-decode';
+import html2canvas from 'html2canvas';
 
 // id name email text[] imgs[] backgroundcolor bordercolor
 // dimentions borderradius borderwidth padding margin lastupdate
@@ -86,13 +87,25 @@ class ViewLogoScreen extends Component {
         });
     }
 
+    downloadHandle = () => {
+        html2canvas(document.getElementById('workspace'), {allowTaint: true}).then(function(canvas) {
+            //var myImage = canvas.toDataURL("image/png");
+            //window.open(myImage);
+            console.log(canvas);
+            document.body.appendChild(canvas);
+        });
+    }
+
     processLogoutCallback = () => {
 
     }
 
     render() {
         let cookie = this.state.cookieOk;
-        let cookieEmail = jwtDecode(Cookie.get('jwt')).email
+        let cookieEmail = "null";
+        if(this.state.cookieOk) {
+            let cookieEmail = jwtDecode(Cookie.get('jwt')).email
+        } 
         return (
             <div>
                 <Navbar currentScreen="View Logo" logoutCallback={this.processLogoutCallback} />
@@ -186,6 +199,7 @@ class ViewLogoScreen extends Component {
                                                                 </Modal>
                                                                 
                                                             </form>
+                                                            <button className="btn waves-effect waves-light modal-close" onClick={this.downloadHandle}>Download</button>
                                                             {loading && <p>Loading...</p>}
                                                             {error && <p>Error :( Please try again</p>}
                                                         </div>

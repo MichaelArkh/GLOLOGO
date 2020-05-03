@@ -67,13 +67,13 @@ class AddImage extends Component {
                 <div className="row">
                     <div className="col s4">X Offset:</div>
                     <div className="col s8">
-                        <Range min="4" max="100" onChange={this.handlexChange} />
+                        <Range min="4" max={this.props.bounds[0]/1.2 + ''} defaultValue={this.state.position[0]} onChange={this.handlexChange} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col s4">Y Offset:</div>
                     <div className="col s8">
-                        <Range min="4" max="100" onChange={this.handleyChange} />
+                        <Range min="4" max={this.props.bounds[0]/1.2 + ''} defaultValue={this.state.position[1]}  onChange={this.handleyChange} />
                     </div>
                 </div>
                 <div className="row">

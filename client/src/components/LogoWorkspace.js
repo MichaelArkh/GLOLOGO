@@ -62,7 +62,7 @@ class LogoWorkspace extends Component {
             }
         }
         return (
-            <div style={styles.container}>{this.props.values.text.map((e, index) => (
+            <div id="workspace" style={styles.container}>{this.props.values.text.map((e, index) => (
                 <Draggable disabled={this.props.disabled} key={index} onDrag={(e, pos) => this.controlledTextDrag(index, pos)} position={{ x: this.props.values.text[index].position[0], y: this.props.values.text[index].position[1] }} bounds="parent">
                     <div style={{ fontSize: e.fontSize, color: e.color, cursor: 'pointer', height: 'auto', width: 'auto', position: 'absolute' }}>{this.getText(e.content)}</div>
                 </Draggable>
