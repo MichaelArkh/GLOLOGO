@@ -10,7 +10,7 @@ import AddImage from './modifiers/AddImage.js';
 import EditText from './modifiers/EditText.js';
 import EditImage from './modifiers/EditImage.js';
 import Dimentions from './modifiers/Dimentions.js';
-var jwtDecode = require('jwt-decode');
+import jwtDecode from 'jwt-decode';
 
 
 // id name email text[] imgs[] backgroundcolor bordercolor
@@ -26,7 +26,7 @@ const ADD_LOGO = gql`
         $borderColor: String!,
         $borderRadius: Int!,
         $borderWidth: Int!,
-        $dimentions: [Int!]!,
+        $dimensions: [Int!]!,
         $padding: Int!,
         $margin: Int!) {
         addLogo(
@@ -38,7 +38,7 @@ const ADD_LOGO = gql`
             borderColor: $borderColor,
             borderRadius: $borderRadius,
             borderWidth: $borderWidth,
-            dimensions: $dimentions,
+            dimensions: $dimensions,
             padding: $padding,
             margin: $margin) {
             _id
@@ -73,7 +73,7 @@ class CreateLogoScreen extends Component {
             email: !(typeof Cookie.get('jwt') === 'undefined') ? jwtDecode(Cookie.get('jwt'))["email"] : "",
             text: [],
             imgs: [],
-            dimentions: [520, 200],
+            dimensions: [520, 200],
             backgroundColor: '#ebd9ff',
             borderColor: '#7900ff',
             borderRadius: 5,
@@ -100,6 +100,12 @@ class CreateLogoScreen extends Component {
                 })
             }
         );
+
+        this.refCallback = element => {
+            if (element) {
+              console.log(element.getBoundingClientRect());
+            }
+          };
     }
 
     updateTextColor = (event) => {
@@ -264,7 +270,7 @@ class CreateLogoScreen extends Component {
                                                     addLogo({
                                                         variables: {
                                                             name: this.state.name, email: this.state.email, imgs: this.state.imgs, text: this.state.text, backgroundColor: this.state.backgroundColor, borderColor: this.state.borderColor,
-                                                            borderRadius: this.state.borderRadius, dimentions: this.state.dimentions, borderWidth: this.state.borderWidth, padding: this.state.padding, margin: this.state.margin
+                                                            borderRadius: this.state.borderRadius, dimensions: this.state.dimensions, borderWidth: this.state.borderWidth, padding: this.state.padding, margin: this.state.margin
                                                         }
                                                     });
                                                 }}>
@@ -278,8 +284,8 @@ class CreateLogoScreen extends Component {
                                                         <div className="card blue-grey darken-1">
                                                             <div className="card-content white-text">
                                                                 <span className="card-title">Text
-                                                        <Modal header="Add Text" trigger={<div style={{ display: 'inline-block', float: 'right', cursor: 'pointer' }}><i className="small material-icons">add_circle</i></div>}>
-                                                                        <AddText handleSubmit={this.handleSubmitTextCallback} />
+                                                            <Modal header="Add Text" trigger={<div style={{ display: 'inline-block', float: 'right', cursor: 'pointer' }}><i className="small material-icons">add_circle</i></div>}>
+                                                                        <AddText handleSubmit={this.handleSubmitTextCallback} bounds={this.state.dimensions}/>
                                                                     </Modal>
                                                                 </span>
 
@@ -302,7 +308,7 @@ class CreateLogoScreen extends Component {
                                                                                 <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>
                                                                                 <td>
                                                                                     <Modal header="Edit Text" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
-                                                                                        <EditText handleSubmit={this.handleEditTextCallback} pos={index} logo={e} />
+                                                                                        <EditText bounds={this.state.dimensions} handleSubmit={this.handleEditTextCallback} pos={index} logo={e} />
                                                                                     </Modal>
                                                                                     <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteText(index)}>delete</i>
                                                                                 </td>
@@ -311,6 +317,9 @@ class CreateLogoScreen extends Component {
                                                                     </tbody>
                                                                 </table>
                                                             </div>
+                                                        </div>
+                                                        <div ref={this.refCallback}>
+                                                            
                                                         </div>
 
                                                         <div className="card blue-grey darken-1">
@@ -355,15 +364,15 @@ class CreateLogoScreen extends Component {
                                                                 <div className="row">
                                                                     <div className="col s4">Logo Name:</div>
                                                                     <div className="col s8 input-field">
-                                                                        <label>Logo Name</label>
-                                                                        <input type="text" defaultValue={this.state.inputText} onChange={this.handleNameChange} />
+                                                                        
+                                                                        <input placeholder="Type here" type="text" defaultValue={this.state.inputText} onChange={this.handleNameChange} />
                                                                     </div>
                                                                 </div>
 
                                                                 <div className="row">
-                                                                    <div className="col s4">Dimentions:</div>
+                                                                    <div className="col s4">Dimensions:</div>
                                                                     <div className="col s8">
-                                                                        {this.state.dimentions[0]} x {this.state.dimentions[1]} &nbsp;&nbsp;
+                                                                        {this.state.dimensions[0]} x {this.state.dimensions[1]} &nbsp;&nbsp;
                                                                         <Modal header="Edit Dimentions" trigger={<i style={{ cursor: 'pointer' }} className="material-icons tiny">edit</i>} >
                                                                             <Dimentions handleSubmit={this.handleSubmitDimentionsCallback} />
                                                                         </Modal>
@@ -421,7 +430,7 @@ class CreateLogoScreen extends Component {
                                         </div>
 
                                         <div className="col s7" style={{overflow: 'auto'}}>
-                                            <LogoWorkspace values={JSON.parse(JSON.stringify(this.state))} updatedImageCallback={(newImage) => this.updateImagePos(newImage)}updatedTextCallback={(newText) => this.updateTextPos(newText)}/>
+                                            <LogoWorkspace disabled={false} values={JSON.parse(JSON.stringify(this.state))} updatedImageCallback={(newImage) => this.updateImagePos(newImage)}updatedTextCallback={(newText) => this.updateTextPos(newText)}/>
                                         </div>
                                     </div>
                                 </div>

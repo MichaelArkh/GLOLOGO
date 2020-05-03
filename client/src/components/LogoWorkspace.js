@@ -49,10 +49,10 @@ class LogoWorkspace extends Component {
                 //borderWidth: this.props.logo.borderWidth + "px",
                 padding: this.props.values.padding + "px",
                 margin: this.props.values.margin + "px",
-                minWidth: this.props.values.dimentions[0],
-                minHeight: this.props.values.dimentions[1],
-                maxWidth: this.props.values.dimentions[0],
-                maxHeight: this.props.values.dimentions[1],
+                minWidth: this.props.values.dimensions[0],
+                minHeight: this.props.values.dimensions[1],
+                maxWidth: this.props.values.dimensions[0],
+                maxHeight: this.props.values.dimensions[1],
                 position: 'relative'
             },
             imgs: {
@@ -63,12 +63,12 @@ class LogoWorkspace extends Component {
         }
         return (
             <div style={styles.container}>{this.props.values.text.map((e, index) => (
-                <Draggable key={index} onDrag={(e, pos) => this.controlledTextDrag(index, pos)} position={{ x: this.props.values.text[index].position[0], y: this.props.values.text[index].position[1] }} bounds="parent">
+                <Draggable disabled={this.props.disabled} key={index} onDrag={(e, pos) => this.controlledTextDrag(index, pos)} position={{ x: this.props.values.text[index].position[0], y: this.props.values.text[index].position[1] }} bounds="parent">
                     <div style={{ fontSize: e.fontSize, color: e.color, cursor: 'pointer', height: 'auto', width: 'auto', position: 'absolute' }}>{this.getText(e.content)}</div>
                 </Draggable>
             ))
             }{this.props.values.imgs.map((e, index) => (
-                <Draggable key={index} onDrag={(e, pos) => this.controlledImgDrag(index, pos)} position={{ x: this.props.values.imgs[index].position[0], y: this.props.values.imgs[index].position[1] }} bounds="parent">
+                <Draggable disabled={this.props.disabled} key={index} onDrag={(e, pos) => this.controlledImgDrag(index, pos)} position={{ x: this.props.values.imgs[index].position[0], y: this.props.values.imgs[index].position[1] }} bounds="parent">
                         <img draggable="false" alt="" style={{width: e.scale + '%', cursor: 'pointer', position: 'absolute'}} src={e.link}/>
                 </Draggable>
             ))}</div>

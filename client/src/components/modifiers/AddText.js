@@ -74,13 +74,13 @@ class AddText extends Component {
                 <div className="row">
                     <div className="col s4">X Offset:</div>
                     <div className="col s8">
-                        <Range min="4" max="100" defaultValue="" onChange={this.handlexChange} />
+                        <Range min="0" max={this.props.bounds[0]-((this.state.fontSize + (15 * this.state.content.length)))} value={this.state.position[0]} onChange={this.handlexChange} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col s4">Y Offset:</div>
                     <div className="col s8">
-                        <Range min="4" max="100" onChange={this.handleyChange} />
+                        <Range min="0" max={this.props.bounds[1]-(this.state.fontSize * 1.5)} value={this.state.position[1]} onChange={this.handleyChange} />
                     </div>
                 </div>
                 <div className="row">

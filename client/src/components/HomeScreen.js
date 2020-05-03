@@ -6,7 +6,7 @@ import { Query } from 'react-apollo';
 import Navbar from './Navbar.js';
 import WelcomeScreen from './WelcomeScreen';
 import Cookie from 'js-cookie';
-var jwtDecode = require('jwt-decode');
+import jwtDecode from 'jwt-decode';
 
 const GET_LOGOS = gql`
 query email($email: String!)

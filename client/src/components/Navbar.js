@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { Modal, Range } from 'react-materialize';
 import Cookie from 'js-cookie';
 import { Link } from 'react-router-dom';
-
-var jwtDecode = require('jwt-decode');
+import jwtDecode from 'jwt-decode';
 
 class Navbar extends Component {
     constructor(props) {
