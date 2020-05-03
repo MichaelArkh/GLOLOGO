@@ -104,7 +104,7 @@ class ViewLogoScreen extends Component {
         let cookie = this.state.cookieOk;
         let cookieEmail = "null";
         if(this.state.cookieOk) {
-            let cookieEmail = jwtDecode(Cookie.get('jwt')).email
+            cookieEmail = jwtDecode(Cookie.get('jwt')).email
         } 
         return (
             <div>

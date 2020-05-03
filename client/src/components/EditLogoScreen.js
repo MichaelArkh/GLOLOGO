@@ -1,16 +1,33 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
 import LogoWorkspace from './LogoWorkspace';
+import Navbar from './Navbar';
+import { Modal, Range } from 'react-materialize';
+import AddText from './modifiers/AddText.js';
+import AddImage from './modifiers/AddImage.js';
+import EditText from './modifiers/EditText.js';
+import EditImage from './modifiers/EditImage.js';
+import Dimentions from './modifiers/Dimentions.js';
 
 const GET_LOGO = gql`
     query logo($logoId: String) {
         logo(id: $logoId) {
             _id
-            text
-            color
-            fontSize
+            name
+            email
+            text {
+                content
+                color
+                fontSize
+                position
+            }
+            imgs {
+                link
+                position
+                scale
+            }
+            dimensions
             borderColor
             backgroundColor
             borderRadius
@@ -24,20 +41,24 @@ const GET_LOGO = gql`
 const UPDATE_LOGO = gql`
     mutation updateLogo(
         $id: String!,
-        $text: String!,
-        $color: String!,
-        $fontSize: Int!,
+        $name: String!,
+        $email: String!,
+        $text: [textInput]!,
+        $imgs: [imgInput]!,
         $backgroundColor: String!,
         $borderColor: String!,
         $borderRadius: Int!,
         $borderWidth: Int!,
+        $dimensions: [Int!]!,
         $padding: Int!,
         $margin: Int!) {
             updateLogo(
                 id: $id,
+                name: $name,
+                email: $email,
                 text: $text,
-                color: $color,
-                fontSize: $fontSize,
+                imgs: $imgs,
+                dimensions: $dimensions,
                 backgroundColor: $backgroundColor,
                 borderColor: $borderColor,
                 borderRadius: $borderRadius,
@@ -55,15 +76,7 @@ class EditLogoScreen extends Component {
         super(props);
 
         this.state = {
-            fontSize: 50,
-            borderRadius: 50,
-            borderWidth: 50,
-            padding: 50,
-            text: "",
-            textColor: "#000000",
-            borderColor: "#7900ff",
-            backgroundColor: "#ebd9ff",
-            margin: 50
+
         }
     }
     updateTextColor = (event) => {
@@ -119,11 +132,17 @@ class EditLogoScreen extends Component {
         });
     }
 
+    handleNameChange = (event) => {
+        this.setState({
+            name: event.target.value
+        });
+    }
+
     isDisabled = () => {
         let length = 0;
 
-        for(let i = 0; i < this.state.text.length; i++){
-            if( this.state.text.charAt(i) === ' '){
+        for (let i = 0; i < this.state.name.length; i++) {
+            if (this.state.name.charAt(i) === ' ') {
 
             } else {
                 length++;
@@ -133,23 +152,106 @@ class EditLogoScreen extends Component {
         return length > 0;
     }
 
+    processLogoutCallback = () => {
+
+    }
+
+    handleSubmitTextCallback = (newlogo) => {
+        var newlist = this.state.text
+        newlist.push(newlogo);
+        this.setState({
+            text: newlist
+        });
+    }
+
+    handleSubmitImageCallback = (newlogo) => {
+        var newlist = this.state.imgs
+        newlist.push(newlogo);
+        this.setState({
+            imgs: newlist
+        });
+    }
+
+    handleSubmitDimentionsCallback = (newlogo) => {
+        this.setState({
+            dimensions: newlogo
+        });
+    }
+
+    handleEditTextCallback = (newlogo, pos) => {
+        var logo = this.state.text;
+        logo[pos] = newlogo;
+        this.setState({
+            text: logo
+        });
+    }
+
+    handleEditImgCallback = (newimg, pos) => {
+        var logo = this.state.imgs;
+        logo[pos] = newimg;
+        this.setState({
+            imgs: logo
+        });
+    }
+
+    handleDeleteText = (index) => {
+        var logo = this.state.text;
+        logo.splice(index, 1);
+        this.setState({
+            text: logo
+        });
+    }
+
+    handleDeleteImg = (index) => {
+        var logo = this.state.imgs;
+        logo.splice(index, 1);
+        this.setState({
+            imgs: logo
+        });
+    }
+
+    updateTextPos = (newText) => {
+        this.setState({
+            text: newText
+        })
+    }
+
+    updateImagePos = (newImages) => {
+        this.setState({
+            imgs: newImages
+        })
+    }
+
+    strip = (obj) => {
+        var a = []
+        for(var b = 0; b < obj.length; b++){
+            const { __typename, ...other } = obj[b];
+            a.push(other);
+
+        }
+        return a;
+    }
+
     update = (data) => {
         this.setState({
-            fontSize: parseInt(data.logo.fontSize),
             borderRadius: parseInt(data.logo.borderRadius),
             borderWidth: parseInt(data.logo.borderWidth),
             padding: parseInt(data.logo.padding),
-            text: data.logo.text,
-            textColor: data.logo.color,
+            text: this.strip(data.logo.text),
+            imgs: this.strip(data.logo.imgs),
+            name: data.logo.name,
+            dimensions: data.logo.dimensions,
             borderColor: data.logo.borderColor,
             backgroundColor: data.logo.backgroundColor,
             margin: parseInt(data.logo.margin)
         })
     }
 
+    processLogoutCallback = () => { }
+
     render() {
-        let text, color, backgroundColor, borderColor;
-        return (
+        return (<div>
+            <Navbar currentScreen="Edit Screen" logoutCallback={this.processLogoutCallback} />
             <Query query={GET_LOGO} fetchPolicy="no-cache" variables={{ logoId: this.props.match.params.id }} onCompleted={data => this.update(data)}>
                 {({ loading, error, data }) => {
                     if (loading) return 'Loading...';
@@ -158,20 +260,8 @@ class EditLogoScreen extends Component {
                     return (
                         <Mutation mutation={UPDATE_LOGO} key={data.logo._id} onCompleted={() => this.props.history.push(`/`)}>
                             {(updateLogo, { loading, error }) => (
-                                <div className="container mx-auto">
-                                    <div className="row" style={{
-                                        backgroundColor: '#ebd9ff',
-                                        paddingLeft: '20px', borderRadius: '20px'
-                                    }}>
-                                    <div className="panel panel-default">
-                                        <div className="panel-heading">
-                                            <h4><Link to="/">Home</Link></h4>
-                                            <h3 className="panel-title">
-                                                Edit Logo
-                                        </h3>
-                                        </div>
-                                    </div>
-                                    </div>
+                                <div className="container">
+
                                     <div className="row">
                                         <div className="col s5">
                                             <div className="panel-body">
@@ -179,84 +269,171 @@ class EditLogoScreen extends Component {
                                                     e.preventDefault();
                                                     updateLogo({
                                                         variables: {
-                                                            id: data.logo._id, text: text.value, color: color.value, fontSize: this.state.fontSize, backgroundColor: backgroundColor.value, borderColor: borderColor.value,
+                                                            id: data.logo._id, text: this.state.text, dimensions: this.state.dimensions, imgs: this.state.imgs, email: data.logo.email, name: this.state.name, backgroundColor: this.state.backgroundColor, borderColor: this.state.borderColor,
                                                             borderRadius: this.state.borderRadius, borderWidth: this.state.borderWidth, padding: this.state.padding, margin: this.state.margin
                                                         }
                                                     });
-                                                    text.value = "";
                                                 }}>
+                                                    <div className="card-panel">
+                                                        <button className="btn btn-success " disabled={!this.isDisabled()}
+                                                            style={{ cursor: !this.isDisabled() ? 'initial' : 'pointer' }}>Submit</button> <p style={{
+                                                                visibility: !this.isDisabled() ? 'visible' : 'hidden',
+                                                                display: 'inline-block',
+                                                                color: 'grey'
+                                                            }}>Name must be non-null and cannot be all spaces</p>
+                                                        <div className="card blue-grey darken-1">
+                                                            <div className="card-content white-text">
+                                                                <span className="card-title">Text
+                                                            <Modal header="Add Text" trigger={<div style={{ display: 'inline-block', float: 'right', cursor: 'pointer' }}><i className="small material-icons">add_circle</i></div>}>
+                                                                        <AddText handleSubmit={this.handleSubmitTextCallback} bounds={this.state.dimensions} />
+                                                                    </Modal>
+                                                                </span>
 
-                                                    <div className="form-group">
-                                                        <label htmlFor="text">Text:</label>
-                                                        <input type="text" className="form-control" onChange={this.updateText} name="text" ref={node => {
-                                                            text = node;
-                                                        }} defaultValue={this.state.text} />
+                                                                <table>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Content</th>
+                                                                            <th>Position</th>
+                                                                            <th>Size</th>
+                                                                            <th>Color</th>
+                                                                            <th>Controls</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {this.state.text.map((e, index) => (
+                                                                            <tr key={index}>
+                                                                                <td>{e["content"]}</td>
+                                                                                <td>{e["position"].toString()}</td>
+                                                                                <td>{e["fontSize"]}</td>
+                                                                                <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>
+                                                                                <td>
+                                                                                    <Modal header="Edit Text" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
+                                                                                        <EditText bounds={this.state.dimensions} handleSubmit={this.handleEditTextCallback} pos={index} logo={e} />
+                                                                                    </Modal>
+                                                                                    <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteText(index)}>delete</i>
+                                                                                </td>
+                                                                            </tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="card blue-grey darken-1">
+                                                            <div className="card-content white-text">
+                                                                <span className="card-title">Images
+                                                        <Modal header="Add Image" trigger={<div style={{ display: 'inline-block', float: 'right', cursor: 'pointer' }}><i className="small material-icons">add_circle</i></div>}>
+                                                                        <AddImage bounds={this.state.dimensions} handleSubmit={this.handleSubmitImageCallback} />
+                                                                    </Modal>
+                                                                </span>
+
+                                                                <table>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Min Url</th>
+                                                                            <th>Position</th>
+                                                                            <th>Scale</th>
+                                                                            <th>Controls</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {this.state.imgs.map((e, index) => (
+                                                                            <tr key={index}>
+                                                                                <td>{e["link"].substring(0, 15)}</td>
+                                                                                <td>{e["position"].toString()}</td>
+                                                                                <td>{e["scale"] + " %"}</td>
+                                                                                <td>
+                                                                                    <Modal header="Edit Image" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
+                                                                                        <EditImage bounds={this.state.dimensions} handleSubmit={this.handleEditImgCallback} pos={index} img={e} />
+                                                                                    </Modal>
+                                                                                    <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteImg(index)}>delete</i>
+                                                                                </td>
+                                                                            </tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="card blue-grey darken-1">
+                                                            <div className="card-content white-text">
+                                                                <span className="card-title">Extra Options</span>
+                                                                <div className="row">
+                                                                    <div className="col s4">Logo Name:</div>
+                                                                    <div className="col s8 input-field">
+                                                                        <input placeholder="Type here" type="text" value={this.state.name} onChange={this.handleNameChange} />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col s4">Dimensions:</div>
+                                                                    <div className="col s8">
+                                                                        {this.state.dimensions[0]} x {this.state.dimensions[1]} &nbsp;&nbsp;
+                                                                        <Modal header="Edit Dimentions" trigger={<i style={{ cursor: 'pointer' }} className="material-icons tiny">edit</i>} >
+                                                                            <Dimentions handleSubmit={this.handleSubmitDimentionsCallback} />
+                                                                        </Modal>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col s4">Background Color:</div>
+                                                                    <div className="col s8">
+                                                                        <input label="color" defaultValue={this.state.backgroundColor} onChange={this.updateBackgroundColor} type="color" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col s4">Border Color:</div>
+                                                                    <div className="col s8">
+                                                                        <input label="color" defaultValue={this.state.borderColor} onChange={this.updateBorderColor} type="color" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col s4">Border Radius:</div>
+                                                                    <div className="col s8">
+                                                                        <Range min="4" max="100" defaultValue={this.state.borderRadius} onChange={this.updateRadius} />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col s4">Border Width:</div>
+                                                                    <div className="col s8">
+                                                                        <Range min="4" max="100" defaultValue={this.state.borderWidth} onChange={this.updateWidth} />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col s4">Margin:</div>
+                                                                    <div className="col s8">
+                                                                        <Range min="4" max="100" defaultValue={this.state.margin} onChange={this.updateMargin} />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="row">
+                                                                    <div className="col s4">Padding:</div>
+                                                                    <div className="col s8">
+                                                                        <Range min="4" max="100" defaultValue={this.state.padding} onChange={this.updatePadding} />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
-                                                    <div className="form-group">
-                                                        <label htmlFor="color">Text Color:</label>
-                                                        <input type="color" className="form-control" defaultValue={this.state.textColor} onChange={this.updateTextColor} name="color" ref={node => {
-                                                            color = node;
-                                                        }} placeholder="Color" />
-                                                    </div>
 
-                                                    <div className="form-group">
-                                                        <label htmlFor="backgroundColor">Background Color:</label>
-                                                        <input type="color" className="form-control" defaultValue={this.state.backgroundColor} onChange={this.updateBackgroundColor} name="backgroundColor" ref={node => {
-                                                            backgroundColor = node;
-                                                        }} placeholder="BackgroundColor" />
-                                                    </div>
-
-                                                    <div className="form-group">
-                                                        <label htmlFor="borderColor">Border Color:</label>
-                                                        <input type="color" className="form-control" defaultValue={this.state.borderColor} onChange={this.updateBorderColor} name="borderColor" ref={node => {
-                                                            borderColor = node;
-                                                        }} placeholder="BorderColor" />
-                                                    </div>
-
-                                                    <div className="form-group">
-                                                        <label htmlFor="fontSize">Font Size:</label>
-                                                        <input type="range" min="2" max="144" className="slider" defaultValue={this.state.fontSize} onChange={this.updateFont} />
-                                                        <div style={valStyle}>{this.state.fontSize}</div>
-                                                    </div>
-
-                                                    <div className="form-group">
-                                                        <label htmlFor="borderRadius">Border Radius:</label>
-                                                        <input type="range" min="2" max="144" className="slider" defaultValue={this.state.borderRadius} onChange={this.updateRadius} />
-                                                        <div style={valStyle}>{this.state.borderRadius}</div>
-                                                    </div>
-
-                                                    <div className="form-group">
-                                                        <label htmlFor="borderWidth">Border Width:</label>
-                                                        <input type="range" min="2" max="144" className="slider" defaultValue={this.state.borderWidth} onChange={this.updateWidth} />
-                                                        <div style={valStyle}>{this.state.borderWidth}</div>
-                                                    </div>
-
-                                                    <div className="form-group">
-                                                        <label htmlFor="padding">Padding:</label>
-                                                        <input type="range" min="2" max="144" className="slider" defaultValue={this.state.padding} onChange={this.updatePadding} />
-                                                        <div style={valStyle}>{this.state.padding}</div>
-                                                    </div>
-
-                                                    <div className="form-group">
-                                                        <label htmlFor="margin">Margin:</label><br />
-                                                        <input type="range" min="2" max="144" className="slider" defaultValue={this.state.margin} onChange={this.updateMargin} />
-                                                        <div style={valStyle}>{this.state.margin}</div>
-                                                    </div>
-
-                                                    <button type="submit" className="btn btn-success"disabled={!this.isDisabled()}
-                                        style={{cursor: !this.isDisabled() ? 'initial' : 'pointer'}}>Submit</button> <p style={{visibility: !this.isDisabled() ? 'visible' : 'hidden',
-                                                                                                                                    display: 'inline-block',
-                                                                                                                                    color: 'grey' }}>Text must be non-null and cannot be all spaces</p>
+                                                    <button type="submit" className="btn btn-success" disabled={!this.isDisabled()}
+                                                        style={{ cursor: !this.isDisabled() ? 'initial' : 'pointer' }}>Submit</button> <p style={{
+                                                            visibility: !this.isDisabled() ? 'visible' : 'hidden',
+                                                            display: 'inline-block',
+                                                            color: 'grey'
+                                                        }}>Text must be non-null and cannot be all spaces</p>
                                                 </form>
                                                 {loading && <p>Loading...</p>}
                                                 {error && <p>Error :( Please try again</p>}
                                             </div>
                                         </div>
                                         <div className="col s7">
-                                        <LogoWorkspace text={this.state.text} textColor={this.state.textColor} fontSize={this.state.fontSize}
-                            backgroundColor={this.state.backgroundColor} borderColor={this.state.borderColor} borderRadius={this.state.borderRadius}
-                            borderWidth={this.state.borderWidth} padding={this.state.padding} margin={this.state.margin}/>
+                                             <LogoWorkspace disabled={false} values={JSON.parse(JSON.stringify(this.state))} updatedImageCallback={(newImage) => this.updateImagePos(newImage)}updatedTextCallback={(newText) => this.updateTextPos(newText)}/>
                                         </div>
                                     </div>
                                 </div>
@@ -265,6 +442,7 @@ class EditLogoScreen extends Component {
                     );
                 }}
             </Query>
+        </div>
         );
     }
 }
