@@ -425,14 +425,6 @@ class EditLogoScreen extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
-
-
-                                                    <button type="submit" className="btn btn-success" disabled={!this.isDisabled()}
-                                                        style={{ cursor: !this.isDisabled() ? 'initial' : 'pointer' }}>Submit</button> <p style={{
-                                                            visibility: !this.isDisabled() ? 'visible' : 'hidden',
-                                                            display: 'inline-block',
-                                                            color: 'grey'
-                                                        }}>Text must be non-null and cannot be all spaces</p>
                                                 </form>
                                                 {loading && <p>Loading...</p>}
                                                 {error && <p>Error :( Please try again</p>}
