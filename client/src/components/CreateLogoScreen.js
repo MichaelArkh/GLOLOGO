@@ -290,6 +290,7 @@ class CreateLogoScreen extends Component {
                                                                             <th>Position</th>
                                                                             <th>Size</th>
                                                                             <th>Color</th>
+                                                                            <th>Index</th>
                                                                             <th>Controls</th>
                                                                         </tr>
                                                                     </thead>
@@ -300,6 +301,7 @@ class CreateLogoScreen extends Component {
                                                                                 <td>{e["position"].toString()}</td>
                                                                                 <td>{e["fontSize"]}</td>
                                                                                 <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>
+                                                                                <td>{e["index"]}</td>
                                                                                 <td>
                                                                                     <Modal header="Edit Text" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
                                                                                         <EditText bounds={this.state.dimensions} handleSubmit={this.handleEditTextCallback} pos={index} logo={e} />
@@ -327,6 +329,7 @@ class CreateLogoScreen extends Component {
                                                                             <th>Min Url</th>
                                                                             <th>Position</th>
                                                                             <th>Scale</th>
+                                                                            <th>Index</th>
                                                                             <th>Controls</th>
                                                                         </tr>
                                                                     </thead>
@@ -336,6 +339,7 @@ class CreateLogoScreen extends Component {
                                                                                 <td>{e["link"].substring(0,15)}</td>
                                                                                 <td>{e["position"].toString()}</td>
                                                                                 <td>{e["scale"] + " %"}</td>
+                                                                                <td>{e["index"]}</td>
                                                                                 <td>
                                                                                     <Modal header="Edit Image" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
                                                                                         <EditImage bounds={this.state.dimensions} handleSubmit={this.handleEditImgCallback} pos={index} img={e} />

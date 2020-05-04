@@ -15,7 +15,8 @@ class EditImage extends Component {
         this.state = {
             link: this.props.img.link,
             position: this.props.img.position,
-            scale: this.props.img.scale
+            scale: this.props.img.scale,
+            index: this.props.img.index
         }
     }
 
@@ -23,9 +24,16 @@ class EditImage extends Component {
         this.setState({
             link: newprops.img.link,
             position: newprops.img.position,
-            scale: newprops.img.scale
+            scale: newprops.img.scale,
+            index: newprops.img.index
         });
     };
+
+    handleIndexChange = (event) => {
+        this.setState({
+            index: parseInt(event.target.value)
+        });
+    }
 
     handleLinkChange = (event) => {
         this.setState({
@@ -70,6 +78,12 @@ class EditImage extends Component {
             <div>
                 <div className="row input-field">
                     <input label="Link Src" defaultValue={this.state.link} style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleLinkChange} />
+                </div>
+                <div className="row">
+                    <div className="col s4">Index:</div>
+                    <div className="col s8">
+                        <Range min="0" max={100} value={this.state.index} onChange={this.handleIndexChange} />
+                    </div>
                 </div>
                 <div className="row">
                     <div className="col s4">X Offset:</div>

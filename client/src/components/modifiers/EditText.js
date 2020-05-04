@@ -16,7 +16,8 @@ class EditText extends Component {
             content: this.props.logo.content,
             color: this.props.logo.color,
             fontSize: this.props.logo.fontSize,
-            position: this.props.logo.position
+            position: this.props.logo.position,
+            index: this.props.logo.index
         }
     }
 
@@ -25,7 +26,14 @@ class EditText extends Component {
             content: newprops.logo.content,
             color: newprops.logo.color,
             fontSize: newprops.logo.fontSize,
-            position: newprops.logo.position
+            position: newprops.logo.position,
+            index: newprops.logo.index
+        });
+    }
+
+    handleIndexChange = (event) => {
+        this.setState({
+            index: parseInt(event.target.value)
         });
     }
 
@@ -78,6 +86,12 @@ class EditText extends Component {
             <div>
                 <div className="row input-field">
                     <input label="Content(Text)" defaultValue={this.props.logo.content} style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleTextChange} />
+                </div>
+                <div className="row">
+                    <div className="col s4">Index:</div>
+                    <div className="col s8">
+                        <Range min="0" max={100} value={this.state.index} onChange={this.handleIndexChange} />
+                    </div>
                 </div>
                 <div className="row">
                     <div className="col s4">X Offset:</div>

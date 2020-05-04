@@ -16,8 +16,16 @@ class AddText extends Component {
             content: "",
             color: "#000000",
             fontSize: 50,
-            position: [50, 50]
+            position: [50, 50],
+            index: 0
         }
+    }
+
+
+    handleIndexChange = (event) => {
+        this.setState({
+            index: parseInt(event.target.value)
+        });
     }
 
     handleTextChange = (event) => {
@@ -70,6 +78,12 @@ class AddText extends Component {
                 <div className="row input-field">
                     <label>Content(Text)</label>
                     <input label="Content(Text)" defaultValue="" style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleTextChange} />
+                </div>
+                <div className="row">
+                    <div className="col s4">Index:</div>
+                    <div className="col s8">
+                        <Range min="0" max={100} value={this.state.index} onChange={this.handleIndexChange} />
+                    </div>
                 </div>
                 <div className="row">
                     <div className="col s4">X Offset:</div>

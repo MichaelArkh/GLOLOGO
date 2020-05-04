@@ -25,11 +25,13 @@ const GET_LOGO = gql`
                 color
                 fontSize
                 position
+                index
             }
             imgs {
                 link
                 position
                 scale
+                index
             }
             dimensions
             borderColor
@@ -132,6 +134,7 @@ class ViewLogoScreen extends Component {
                                                                     <th>Position</th>
                                                                     <th>Size</th>
                                                                     <th>Color</th>
+                                                                    <th>Index</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -141,6 +144,7 @@ class ViewLogoScreen extends Component {
                                                                         <td>{e["position"].toString()}</td>
                                                                         <td>{e["fontSize"]}</td>
                                                                         <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>
+                                                                        <td>{e["index"]}</td>
                                                                     </tr>
                                                                 ))}
                                                             </tbody>
@@ -154,6 +158,7 @@ class ViewLogoScreen extends Component {
                                                                     <th>Min Url</th>
                                                                     <th>Position</th>
                                                                     <th>Scale</th>
+                                                                    <th>Index</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -162,6 +167,7 @@ class ViewLogoScreen extends Component {
                                                                         <td>{e["link"].substring(0, 15)}</td>
                                                                         <td>{e["position"].toString()}</td>
                                                                         <td>{e["scale"] + " %"}</td>
+                                                                        <td>{e["index"]}</td>
                                                                     </tr>
                                                                 ))}
                                                             </tbody>

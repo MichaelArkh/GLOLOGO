@@ -15,9 +15,17 @@ class AddImage extends Component {
         this.state = {
             link: "",
             position: [50, 50],
-            scale: 50
+            scale: 50,
+            index: 0
         }
     }
+
+    handleIndexChange = (event) => {
+        this.setState({
+            index: parseInt(event.target.value)
+        });
+    }
+
 
     handleLinkChange = (event) => {
         this.setState({
@@ -63,6 +71,12 @@ class AddImage extends Component {
                 <div className="row input-field">
                     <label>Link Src</label>
                     <input label="Link Src" style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleLinkChange} />
+                </div>
+                <div className="row">
+                    <div className="col s4">Index:</div>
+                    <div className="col s8">
+                        <Range min="0" max={100} value={this.state.index} onChange={this.handleIndexChange} />
+                    </div>
                 </div>
                 <div className="row">
                     <div className="col s4">X Offset:</div>

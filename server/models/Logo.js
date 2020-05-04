@@ -5,14 +5,16 @@ var textSchema = new mongoose.Schema({
   content: String,
   color: String,
   fontSize: { type: Number, min: 2, max: 144 },
-  position: [Number]
+  position: [Number],
+  index: Number
 });
 
 var imgSchema = new mongoose.Schema({
   // link position
   link: String,
   position: [Number],
-  scale: { type: Number, min: 1, max: 100 }
+  scale: { type: Number, min: 1, max: 200 },
+  index: Number
 });
 
 var LogoSchema = new mongoose.Schema({

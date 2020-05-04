@@ -33,6 +33,9 @@ var imgType = new GraphQLObjectType({
             },
             scale: {
                 type: GraphQLInt
+            },
+            index: {
+                type: GraphQLInt
             }
     }),
 });
@@ -52,6 +55,9 @@ var textType = new GraphQLObjectType({
             },
             position: {
                 type: GraphQLList(GraphQLInt)
+            },
+            index: {
+                type: GraphQLInt
             }
         
     }),
@@ -67,6 +73,9 @@ var imgTypeInput = new GraphQlInputObjectType({
                 type: GraphQLList(GraphQLInt)
             },
             scale: {
+                type: GraphQLInt
+            },
+            index: {
                 type: GraphQLInt
             }
     }),
@@ -87,6 +96,9 @@ var textTypeInput = new GraphQlInputObjectType({
             },
             position: {
                 type: GraphQLList(GraphQLInt)
+            },
+            index: {
+                type: GraphQLInt
             }
         
     }),
