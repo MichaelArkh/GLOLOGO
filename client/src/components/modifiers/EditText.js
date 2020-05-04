@@ -90,7 +90,7 @@ class EditText extends Component {
                 <div className="row">
                     <div className="col s4">Index:</div>
                     <div className="col s8">
-                        <Range min="0" max={100} value={this.state.index} onChange={this.handleIndexChange} />
+                        <Range min="0" max={'100'} value={this.state.index} onChange={this.handleIndexChange} />
                     </div>
                 </div>
                 <div className="row">
