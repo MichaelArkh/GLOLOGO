@@ -212,6 +212,12 @@ class ViewLogoScreen extends Component {
                                                                     </div>
                                                                 </div>
                                                                 <div className="row">
+                                                                    <div className="col s4">Dimensions</div>
+                                                                    <div className="col s8">
+                                                                    {data.logo.dimensions[0] + " x " + data.logo.dimensions[1]}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="row">
                                                                     <div className="col s4">Background Color:</div>
                                                                     <div className="col s8">
                                                                         {data.logo.backgroundColor}<div style={{ height: '20px', width: '20px', border: '2px solid black', backgroundColor: data.logo.backgroundColor, display: 'inline-block', marginLeft: '10px' }} />
@@ -223,12 +229,7 @@ class ViewLogoScreen extends Component {
                                                                     {data.logo.borderColor}<div style={{ height: '20px', width: '20px', border: '2px solid black', backgroundColor: data.logo.borderColor, display: 'inline-block', marginLeft: '10px' }} />
                                                                     </div>
                                                                 </div>
-                                                                <div className="row">
-                                                                    <div className="col s4">Dimensions</div>
-                                                                    <div className="col s8">
-                                                                    {data.logo.dimensions[0] + " x " + data.logo.dimensions[1]}
-                                                                    </div>
-                                                                </div>
+
                                                                 <div className="row">
                                                                     <div className="col s4">Border Radius:</div>
                                                                     <div className="col s8">
@@ -242,17 +243,18 @@ class ViewLogoScreen extends Component {
                                                                     </div>
                                                                 </div>
                                                                 <div className="row">
-                                                                    <div className="col s4">Padding:</div>
-                                                                    <div className="col s8">
-                                                                    {data.logo.padding}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="row">
                                                                     <div className="col s4">Margin:</div>
                                                                     <div className="col s8">
                                                                     {data.logo.margin}
                                                                     </div>
                                                                 </div>
+                                                                <div className="row">
+                                                                    <div className="col s4">Padding:</div>
+                                                                    <div className="col s8">
+                                                                    {data.logo.padding}
+                                                                    </div>
+                                                                </div>
+
 
                                                         </div>
                                                     </div>
