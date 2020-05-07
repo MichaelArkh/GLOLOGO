@@ -95,7 +95,8 @@ class LogoWorkspace extends Component {
         }
         var invert = this.invertedColor();
         return (
-            <div id="workspace" onMouseDownCapture={this.deselect} style={styles.container}>{this.props.values.text.map((e, index) => (
+            <div id="workspace" style={{width: 'max-content', height: 'max-content'}}>
+            <div onMouseDownCapture={this.deselect} style={styles.container}>{this.props.values.text.map((e, index) => (
                 <Draggable disabled={this.props.disabled} key={index} onDrag={(e, pos) => this.controlledTextDrag(index, pos)} position={{ x: this.props.values.text[index].position[0], y: this.props.values.text[index].position[1] }} bounds="parent">
                     {index === this.state.textIndex ?
                         <div style={{ zIndex: e.index, fontSize: e.fontSize, color: e.color, cursor: 'pointer', height: 'auto', width: 'auto', position: 'absolute', border: '1.5px dotted rgb(' + invert.toString() + ')' }} onMouseDownCapture={() => this.textClicked(index)}>{this.getText(e.content)}</div>
@@ -113,6 +114,7 @@ class LogoWorkspace extends Component {
                     }
                 </Draggable>
             ))}</div>
+            </div>
         )
     }
 }

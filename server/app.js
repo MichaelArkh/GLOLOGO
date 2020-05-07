@@ -7,6 +7,7 @@ var graphqlHTTP = require('express-graphql');
 var schema = require('./graphql/logoSchemas');
 var cors = require("cors");
 var passport = require("passport");
+var proxy = require('html2canvas-proxy');
 
 mongoose.connect('mongodb://localhost/node-graphql', { promiseLibrary: require('bluebird'), useNewUrlParser: true })
   .then(() =>  console.log('connection successful'))
@@ -27,7 +28,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', indexRouter);
+app.use('/proxy', proxy());
 app.use('/users', usersRouter);
 app.use('*', cors());
 app.use('/verify', verifyRouter);

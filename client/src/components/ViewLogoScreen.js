@@ -84,9 +84,10 @@ class ViewLogoScreen extends Component {
 
     downloadHandle = () => {
         
-        html2canvas(document.getElementById('workspace'), {useCORS: false}).then(function (canvas) {
+        html2canvas(document.getElementById('workspace'), {proxy: 'http://localhost:3000/proxy'}).then(function (canvas) {
+            
             var myImage = canvas.toDataURL("image/png");
-            //document.body.append(canvas);
+            // document.body.append(canvas);
             let download = document.createElement('a');
             download.href = myImage;
             download.setAttribute('download', 'myImage.png');
@@ -261,7 +262,7 @@ class ViewLogoScreen extends Component {
 
                                                 </div>
                                             </div>
-                                            <div className="col s7" style={{overflow: 'auto'}}>
+                                            <div className="col s7" style={{maxHeight: 750, overflow: 'auto'}}>
                                                 <LogoWorkspace disabled={true} values={JSON.parse(JSON.stringify(data.logo))} updatedImageCallback={(newImage) => this.updateImagePos(newImage)} updatedTextCallback={(newText) => this.updateTextPos(newText)} />
                                             </div>
                                         </div>
