@@ -91,11 +91,15 @@ class LogoWorkspace extends Component {
                 cursor: 'pointer',
                 maxWidth: 'max-content',
                 maxHeight: 'max-content'
+            },
+            contDiv: {
+                width: (this.props.values.dimensions[0] + this.props.values.borderWidth * 2 + this.props.values.padding * 2 + this.props.values.margin * 2),
+                height: (this.props.values.dimensions[1] + this.props.values.borderWidth * 2 + this.props.values.padding * 2+ this.props.values.margin)
             }
         }
         var invert = this.invertedColor();
         return (
-            <div id="workspace" style={{width: 'max-content', height: 'max-content'}}>
+            <div id="workspace" style={styles.contDiv}>
             <div onMouseDownCapture={this.deselect} style={styles.container}>{this.props.values.text.map((e, index) => (
                 <Draggable disabled={this.props.disabled} key={index} onDrag={(e, pos) => this.controlledTextDrag(index, pos)} position={{ x: this.props.values.text[index].position[0], y: this.props.values.text[index].position[1] }} bounds="parent">
                     {index === this.state.textIndex ?
