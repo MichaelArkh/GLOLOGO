@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import '../App.css';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
@@ -59,7 +59,6 @@ class ViewLogoScreen extends Component {
         super(props);
 
         this.state = {
-            modalShow: false,
             cookieOk: false
         }
 
@@ -83,18 +82,18 @@ class ViewLogoScreen extends Component {
         );
     }
 
-    toggleShow = () => {
-        this.setState({
-            modalShow: !this.state.modalShow
-        });
-    }
-
     downloadHandle = () => {
-        html2canvas(document.getElementById('workspace'), { useCORS: true }).then(function (canvas) {
-            var myImage = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");;
-            //window.open(myImage);
-            console.log(canvas);
-            document.body.appendChild(canvas);
+        
+        html2canvas(document.getElementById('workspace'), {useCORS: false}).then(function (canvas) {
+            var myImage = canvas.toDataURL("image/png");
+            //document.body.append(canvas);
+            let download = document.createElement('a');
+            download.href = myImage;
+            download.setAttribute('download', 'myImage.png');
+            download.click();
+
+
+            //console.log(myImage);
         });
     }
 
@@ -119,15 +118,16 @@ class ViewLogoScreen extends Component {
 
                             return (
                                 <div className="container">
-                                    {data.logo === null ? this.props.history.push('/') : data.logo.email === cookieEmail ?
+                                    {data.logo != null && (data.logo.email === cookieEmail) ?
                                         <div className="row">
                                             <div className="col s5" style={{ borderRight: '2px solid #bababa' }}>
                                                 <div className="card-panel">
-                                                    <Mutation mutation={DELETE_LOGO} key={data.logo._id} >
+                                                    <Mutation mutation={DELETE_LOGO} key={data.logo._id} onCompleted={() => this.props.history.push('/')}>
                                                         {(removeLogo, { loading, error }) => (
                                                             <div>
                                                                 <form id="form"
                                                                     onSubmit={e => {
+                                                                        e.preventDefault();
                                                                         removeLogo({ variables: { id: data.logo._id } });
                                                                     }}>
                                                                     <div className="row">
@@ -140,7 +140,7 @@ class ViewLogoScreen extends Component {
                                                                                 </div>
                                                                             </Modal>
                                                                         </div>
-                                                                        <div className="col center-align"><button className="btn waves-effect waves-light modal-close blue" onClick={this.downloadHandle}>Download<i className="material-icons right tiny">file_download</i></button></div>
+                                                                        <div className="col center-align"><button form="ok" className="btn waves-effect waves-light blue" onClick={this.downloadHandle}>Download<i className="material-icons right tiny">file_download</i></button></div>
                                                                     </div>
                                                                 </form>
                                                                 {loading && <p>Loading...</p>}
@@ -261,12 +261,12 @@ class ViewLogoScreen extends Component {
 
                                                 </div>
                                             </div>
-                                            <div className="col s7">
+                                            <div className="col s7" style={{overflow: 'auto'}}>
                                                 <LogoWorkspace disabled={true} values={JSON.parse(JSON.stringify(data.logo))} updatedImageCallback={(newImage) => this.updateImagePos(newImage)} updatedTextCallback={(newText) => this.updateTextPos(newText)} />
                                             </div>
                                         </div>
                                         :
-                                        this.props.history.push('/')}
+                                        <div><Redirect to={'/'} /></div>}
                                 </div>
                             );
                         }

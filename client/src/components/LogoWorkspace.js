@@ -69,8 +69,12 @@ class LogoWorkspace extends Component {
     render() {
         const styles = {
             container: {
-                border: this.props.values.borderWidth + "px" + " solid " + this.props.values.borderColor,
+                borderStyle: 'solid',
+                borderWidth: this.props.values.borderWidth + "px " + this.props.values.borderWidth + "px " + this.props.values.borderWidth + "px " + this.props.values.borderWidth + "px ",
+                borderColor: this.props.values.borderColor,
+                //border: this.props.values.borderWidth + "px" + " solid " + this.props.values.borderColor,
                 backgroundColor: this.props.values.backgroundColor,
+                //borderRight: this.props.values.borderWidth + "px" + " solid " + this.props.values.borderColor,
                 //borderColor: this.props.logo.borderColor,
                 borderRadius: this.props.values.borderRadius + "px",
                 //borderWidth: this.props.logo.borderWidth + "px",
