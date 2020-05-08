@@ -79,7 +79,7 @@ class CreateLogoScreen extends Component {
             borderRadius: 5,
             borderWidth: 5,
             padding: 5,
-            margin: 10
+            margin: 10,
         }
 
         const query = {
@@ -245,8 +245,28 @@ class CreateLogoScreen extends Component {
         })
     }
 
+    textClick = (index) => {
+        this.setState({
+            textClick: index
+        });
+    }
+
+    imgClick = (index) => {
+        this.setState({
+            imgClick: index
+        })
+    }
+
+    deselect = () => {
+        this.setState({
+            textClick: -1,
+            imgClick: -1
+        })
+    }
+
     render() {
         let cookie = this.state.cookieOk;
+        console.log(this.state.textClick);
         return (
             <div>
                 <Navbar currentScreen="Create Logo" logoutCallback={this.processLogoutCallback} />
@@ -279,7 +299,7 @@ class CreateLogoScreen extends Component {
                                                             <div className="card-content white-text">
                                                                 <span className="card-title">Text
                                                             <Modal header="Add Text" trigger={<div style={{ display: 'inline-block', float: 'right', cursor: 'pointer' }}><i className="small material-icons">add_circle</i></div>}>
-                                                                        <AddText handleSubmit={this.handleSubmitTextCallback} bounds={this.state.dimensions}/>
+                                                                        <AddText handleSubmit={this.handleSubmitTextCallback} bounds={this.state.dimensions} />
                                                                     </Modal>
                                                                 </span>
 
@@ -295,21 +315,36 @@ class CreateLogoScreen extends Component {
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        {this.state.text.map((e, index) => (
-                                                                            <tr key={index}>
-                                                                                <td>{e["content"].substring(0,15)}</td>
-                                                                                <td>{e["position"].toString()}</td>
-                                                                                <td>{e["fontSize"]}</td>
-                                                                                <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>
-                                                                                <td>{e["index"]}</td>
-                                                                                <td>
-                                                                                    <Modal header="Edit Text" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
-                                                                                        <EditText bounds={this.state.dimensions} handleSubmit={this.handleEditTextCallback} pos={index} logo={e} />
-                                                                                    </Modal>
-                                                                                    <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteText(index)}>delete</i>
-                                                                                </td>
-                                                                            </tr>
-                                                                        ))}
+                                                                        {this.state.text.map((e, index) => {
+                                                                            return (this.state.textClick === index) ?
+                                                                                <tr key={index} style={{ backgroundColor: '#6f91a1' }}>
+                                                                                    <td>{e["content"].substring(0, 15)}</td>
+                                                                                    <td>{e["position"].toString()}</td>
+                                                                                    <td>{e["fontSize"]}</td>
+                                                                                    <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>
+                                                                                    <td>{e["index"]}</td>
+                                                                                    <td>
+                                                                                        <Modal header="Edit Text" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
+                                                                                            <EditText bounds={this.state.dimensions} handleSubmit={this.handleEditTextCallback} pos={index} logo={e} />
+                                                                                        </Modal>
+                                                                                        <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteText(index)}>delete</i>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                :
+                                                                                <tr key={index}>
+                                                                                    <td>{e["content"].substring(0, 15)}</td>
+                                                                                    <td>{e["position"].toString()}</td>
+                                                                                    <td>{e["fontSize"]}</td>
+                                                                                    <td><div style={{ height: '15px', width: '15px', border: '1px solid black', backgroundColor: e["color"] }} /></td>
+                                                                                    <td>{e["index"]}</td>
+                                                                                    <td>
+                                                                                        <Modal header="Edit Text" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
+                                                                                            <EditText bounds={this.state.dimensions} handleSubmit={this.handleEditTextCallback} pos={index} logo={e} />
+                                                                                        </Modal>
+                                                                                        <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteText(index)}>delete</i>
+                                                                                    </td>
+                                                                                </tr>;
+                                                                        })}
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -334,20 +369,34 @@ class CreateLogoScreen extends Component {
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        {this.state.imgs.map((e, index) => (
-                                                                            <tr key={index}>
-                                                                                <td>{e["link"].substring(0,15)}</td>
-                                                                                <td>{e["position"].toString()}</td>
-                                                                                <td>{e["scale"] + " %"}</td>
-                                                                                <td>{e["index"]}</td>
-                                                                                <td>
-                                                                                    <Modal header="Edit Image" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
-                                                                                        <EditImage bounds={this.state.dimensions} handleSubmit={this.handleEditImgCallback} pos={index} img={e} />
-                                                                                    </Modal>
-                                                                                    <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteImg(index)}>delete</i>
-                                                                                </td>
-                                                                            </tr>
-                                                                        ))}
+                                                                        {this.state.imgs.map((e, index) => {
+                                                                            return (this.state.imgClick === index) ?
+                                                                                <tr key={index} style={{ backgroundColor: '#6f91a1' }}>
+                                                                                    <td>{e["link"].substring(0, 15)}</td>
+                                                                                    <td>{e["position"].toString()}</td>
+                                                                                    <td>{e["scale"] + " %"}</td>
+                                                                                    <td>{e["index"]}</td>
+                                                                                    <td>
+                                                                                        <Modal header="Edit Image" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
+                                                                                            <EditImage bounds={this.state.dimensions} handleSubmit={this.handleEditImgCallback} pos={index} img={e} />
+                                                                                        </Modal>
+                                                                                        <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteImg(index)}>delete</i>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                :
+                                                                                <tr key={index}>
+                                                                                    <td>{e["link"].substring(0, 15)}</td>
+                                                                                    <td>{e["position"].toString()}</td>
+                                                                                    <td>{e["scale"] + " %"}</td>
+                                                                                    <td>{e["index"]}</td>
+                                                                                    <td>
+                                                                                        <Modal header="Edit Image" trigger={<div style={{ display: 'inline-block', cursor: 'pointer' }}><i className="tiny material-icons">edit</i></div>}>
+                                                                                            <EditImage bounds={this.state.dimensions} handleSubmit={this.handleEditImgCallback} pos={index} img={e} />
+                                                                                        </Modal>
+                                                                                        <i className="tiny material-icons" style={{ cursor: 'pointer' }} onClick={() => this.handleDeleteImg(index)}>delete</i>
+                                                                                    </td>
+                                                                                </tr>
+                                                                        })}
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -359,7 +408,7 @@ class CreateLogoScreen extends Component {
                                                                 <div className="row">
                                                                     <div className="col s4">Logo Name:</div>
                                                                     <div className="col s8 input-field">
-                                                                        
+
                                                                         <input placeholder="Type here" type="text" defaultValue={this.state.inputText} onChange={this.handleNameChange} />
                                                                     </div>
                                                                 </div>
@@ -424,8 +473,8 @@ class CreateLogoScreen extends Component {
                                             </div>
                                         </div>
 
-                                        <div className="col s7" style={{maxHeight: 750, overflow: 'auto'}}>
-                                            <LogoWorkspace disabled={false} values={JSON.parse(JSON.stringify(this.state))} updatedImageCallback={(newImage) => this.updateImagePos(newImage)}updatedTextCallback={(newText) => this.updateTextPos(newText)}/>
+                                        <div className="col s7" style={{ maxHeight: 750, overflow: 'auto' }}>
+                                            <LogoWorkspace disabled={false} deselectCallback={this.deselect} textClickedCallback={this.textClick} imgClickedCallback={this.imgClick} values={JSON.parse(JSON.stringify(this.state))} updatedImageCallback={(newImage) => this.updateImagePos(newImage)} updatedTextCallback={(newText) => this.updateTextPos(newText)} />
                                         </div>
                                     </div>
                                 </div>

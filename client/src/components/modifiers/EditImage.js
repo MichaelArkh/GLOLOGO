@@ -100,7 +100,7 @@ class EditImage extends Component {
                 <div className="row">
                     <div className="col s4">Scale:</div>
                     <div className="col s8">
-                        <Range min="0" max="200" defaultValue={this.state.scale} onChange={this.handleScaleChange} />
+                        <Range min="4" max="200" value={this.state.scale} onChange={this.handleScaleChange} />
                     </div>
                 </div>
                 <button className={submitClass} onClick={this.doSubmit}>Submit</button>

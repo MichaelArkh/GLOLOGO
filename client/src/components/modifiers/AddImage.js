@@ -4,8 +4,9 @@ import React, { Component } from "react";
 const defaults = {
     // link position[] scale
     link: "",
-    position: [0, 0],
-    scale: 50
+    position: [50, 50],
+    scale: 50,
+    index: 0
 };
 
 class AddImage extends Component {
@@ -58,7 +59,7 @@ class AddImage extends Component {
     }
     doSubmit = () => {
         this.props.handleSubmit(this.state);
-        this.setState({defaults});
+        this.setState(defaults);
     }
 
     render() {
@@ -70,7 +71,7 @@ class AddImage extends Component {
             <div>
                 <div className="row input-field">
                     <label>Link Src</label>
-                    <input label="Link Src" style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleLinkChange} />
+                    <input label="Link Src" value={this.state.link} style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleLinkChange} />
                 </div>
                 <div className="row">
                     <div className="col s4">Index:</div>
@@ -81,19 +82,19 @@ class AddImage extends Component {
                 <div className="row">
                     <div className="col s4">X Offset:</div>
                     <div className="col s8">
-                        <Range min="4" max={this.props.bounds[0]/1.2 + ''} defaultValue={this.state.position[0]} onChange={this.handlexChange} />
+                        <Range min="4" max={this.props.bounds[0]/1.2 + ''} value={this.state.position[0]} onChange={this.handlexChange} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col s4">Y Offset:</div>
                     <div className="col s8">
-                        <Range min="4" max={this.props.bounds[0]/1.2 + ''} defaultValue={this.state.position[1]}  onChange={this.handleyChange} />
+                        <Range min="4" max={this.props.bounds[0]/1.2 + ''} value={this.state.position[1]}  onChange={this.handleyChange} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col s4">Scale:</div>
                     <div className="col s8">
-                        <Range min="0" max="200" onChange={this.handleScaleChange} />
+                        <Range min="4" max="200" value={this.state.scale} onChange={this.handleScaleChange} />
                     </div>
                 </div>
                 <button className={submitClass} onClick={this.doSubmit}>Submit</button>

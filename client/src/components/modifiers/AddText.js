@@ -5,7 +5,8 @@ const defaults = {
     content: "",
     color: "#000000",
     fontSize: 50,
-    position: [50, 50]
+    position: [50, 50],
+    index: 0
 };
 
 class AddText extends Component {
@@ -63,9 +64,10 @@ class AddText extends Component {
     isDisabled = () => {
         return this.state.content === ""
     }
+
     doSubmit = () => {
         this.props.handleSubmit(this.state);
-        this.setState({defaults});
+        this.setState(defaults);
     }
 
     render() {
@@ -77,7 +79,7 @@ class AddText extends Component {
             <div>
                 <div className="row input-field">
                     <label>Content(Text)</label>
-                    <input label="Content(Text)" defaultValue="" style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleTextChange} />
+                    <input label="Content(Text)" value={this.state.content} style={{ display: 'inline-block', width: '75%' }} type="text" onChange={this.handleTextChange} />
                 </div>
                 <div className="row">
                     <div className="col s4">Index:</div>
@@ -100,13 +102,13 @@ class AddText extends Component {
                 <div className="row">
                     <div className="col s4">Color:</div>
                     <div className="col s8">
-                        <input label="color" onChange={this.handleColorChange} type="color" />
+                        <input label="color" value={this.state.color} onChange={this.handleColorChange} type="color" />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col s4">Font Size:</div>
                     <div className="col s8">
-                        <Range min="4" max="100" onChange={this.handleFontSizeChange} />
+                        <Range min="4" max="100" value={this.state.fontSize} onChange={this.handleFontSizeChange} />
                     </div>
                 </div>
                 <button className={submitClass} onClick={this.doSubmit}>Submit</button>
