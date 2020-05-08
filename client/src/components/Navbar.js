@@ -11,8 +11,28 @@ class Navbar extends Component {
         this.state = {
             email: !(typeof Cookie.get('jwt') === 'undefined') ? jwtDecode(Cookie.get('jwt'))["email"] : "",
             currentScreen: this.props.currentScreen,
-            loggedin: !(typeof Cookie.get('jwt') === 'undefined')
+            loggedin: !(typeof Cookie.get('jwt') === 'undefined'),
+            cookieOk: true
         }
+
+        const query = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ mycookie: Cookie.get('jwt') })
+        };
+
+        fetch('http://localhost:3000/verify', query).then(
+            res => {
+                res.text().then(ok => {
+                    this.setState({
+                        cookieOk: ok === 'true'
+                    });
+                })
+            }
+        );
     }
 
     componentWillReceiveProps = (newprops) => {
@@ -30,7 +50,7 @@ class Navbar extends Component {
     }
 
     render() {
-        const login = this.state.loggedin;
+        const login = this.state.loggedin && this.state.cookieOk;
         return (
             <div className="container " style={divStyle}>
                 {login ?
