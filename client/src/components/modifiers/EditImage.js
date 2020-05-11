@@ -88,19 +88,19 @@ class EditImage extends Component {
                 <div className="row">
                     <div className="col s4">X Offset:</div>
                     <div className="col s8">
-                        <Range min="4" max={this.props.bounds[0]/1.2 + ''} value={this.state.position[0]} onChange={this.handlexChange} />
+                        <Range min="0" max={this.props.bounds[0] - this.props.bounds[0] * this.state.scale/100 + ''} value={this.state.position[0]} onChange={this.handlexChange} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col s4">Y Offset:</div>
                     <div className="col s8">
-                        <Range min="4" max={this.props.bounds[1]/1.2 + ''} value={this.state.position[1]} onChange={this.handleyChange} />
+                        <Range min="0" max={this.props.bounds[1] - this.props.bounds[1] * this.state.scale/100 + ''} value={this.state.position[1]} onChange={this.handleyChange} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col s4">Scale:</div>
                     <div className="col s8">
-                        <Range min="4" max="200" value={this.state.scale} onChange={this.handleScaleChange} />
+                        <Range min="4" max="98" value={this.state.scale} onChange={this.handleScaleChange} />
                     </div>
                 </div>
                 <button className={submitClass} onClick={this.doSubmit}>Submit</button>
