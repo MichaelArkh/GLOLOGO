@@ -136,8 +136,8 @@ class ViewLogoScreen extends Component {
                                                                         <div className="col s4 center-align">
                                                                             <Modal header="Confirm Delete" trigger={<button onClick={this.toggleShow} type="button" className="btn waves-effect waves-light red" >Delete<i className="material-icons right tiny">delete</i></button>}>
                                                                                 <div className="center-align">
-                                                                                    <button form="form" type="submit" className="btn waves-effect waves-light modal-close green">Confirm</button>
-                                                                                    <button className="btn waves-effect waves-light modal-close red">Cancel</button>
+                                                                                    <button form="form" type="submit" className="btn waves-effect waves-light modal-close green">Confirm<i className="material-icons right tiny">check</i></button>
+                                                                                    <button className="btn waves-effect waves-light modal-close red">Cancel<i className="material-icons right tiny">cancel</i></button>
                                                                                 </div>
                                                                             </Modal>
                                                                         </div>

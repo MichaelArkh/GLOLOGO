@@ -46,20 +46,20 @@ const ADD_LOGO = gql`
     }
 `;
 
-var textObj = {
-    // content color fontsize position[]
-    content: "",
-    color: "",
-    fontSize: '',
-    position: [0, 0]
-};
+// var textObj = {
+//     // content color fontsize position[]
+//     content: "",
+//     color: "",
+//     fontSize: '',
+//     position: [0, 0]
+// };
 
-var imgObj = {
-    // link position[] scale
-    link: "",
-    position: [0, 0],
-    scale: 50
-};
+// var imgObj = {
+//     // link position[] scale
+//     link: "",
+//     position: [0, 0],
+//     scale: 50
+// };
 
 class CreateLogoScreen extends Component {
 
@@ -266,7 +266,6 @@ class CreateLogoScreen extends Component {
 
     render() {
         let cookie = this.state.cookieOk;
-        console.log(this.state.textClick);
         return (
             <div>
                 <Navbar currentScreen="Create Logo" logoutCallback={this.processLogoutCallback} />
@@ -289,12 +288,13 @@ class CreateLogoScreen extends Component {
                                                     });
                                                 }}>
                                                     <div className="card-panel">
-                                                        <button className="btn btn-success " disabled={!this.isDisabled()}
-                                                            style={{ cursor: !this.isDisabled() ? 'initial' : 'pointer' }}>Submit</button> <p style={{
+                                                        <button className="btn btn-success " disabled={!this.isDisabled()} onClick={() => this.setState({submitting: true})}
+                                                            style={{ cursor: !this.isDisabled() ? 'initial' : 'pointer' }}>Submit<i className="material-icons right tiny">send</i></button> <p style={{
                                                                 visibility: !this.isDisabled() ? 'visible' : 'hidden',
                                                                 display: 'inline-block',
                                                                 color: 'grey'
                                                             }}>Name must be non-null and cannot be all spaces</p>
+                                                            {this.state.submitting ? <p>Saving...</p> : <p></p>}
                                                         <div className="card blue-grey darken-1">
                                                             <div className="card-content white-text">
                                                                 <span className="card-title">Text
@@ -489,11 +489,5 @@ class CreateLogoScreen extends Component {
         );
     }
 }
-
-const valStyle = {
-    display: 'inline-block',
-    marginLeft: '10px',
-    color: '#9758d6'
-};
 
 export default CreateLogoScreen;

@@ -1,12 +1,12 @@
 import { Range } from "react-materialize";
 import React, { Component } from "react";
 
-const defaults = {
-    content: "",
-    color: "#000000",
-    fontSize: 50,
-    position: [50, 50]
-};
+// const defaults = {
+//     content: "",
+//     color: "#000000",
+//     fontSize: 50,
+//     position: [50, 50]
+// };
 
 class EditText extends Component {
     constructor(props) {

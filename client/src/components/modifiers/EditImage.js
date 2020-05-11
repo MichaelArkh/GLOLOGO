@@ -1,12 +1,12 @@
 import { Range } from "react-materialize";
 import React, { Component } from "react";
 
-const defaults = {
-    // link position[] scale
-    link: "",
-    position: [0, 0],
-    scale: 50
-};
+// const defaults = {
+//     // link position[] scale
+//     link: "",
+//     position: [0, 0],
+//     scale: 50
+// };
 
 class EditImage extends Component {
     constructor(props) {

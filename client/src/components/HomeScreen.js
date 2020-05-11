@@ -26,7 +26,7 @@ class HomeScreen extends Component {
 
         this.state = {
             loggedin: false,
-            cookieok: false
+            cookieOk: true
         };
 
         const query = {

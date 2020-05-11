@@ -81,7 +81,8 @@ class EditLogoScreen extends Component {
         super(props);
 
         this.state = {
-            cookieOk: false
+            cookieOk: false,
+            submitting: false
         }
 
         const query = {
@@ -313,7 +314,7 @@ class EditLogoScreen extends Component {
                         <Mutation mutation={UPDATE_LOGO} key={data.logo._id} onCompleted={() => this.props.history.push(`/`)}>
                             {(updateLogo, { loading, error }) => (
                                 <div className="container">
-                                    {cookie && (data.logo.email == cookieEmail) ?
+                                    {cookie && (data.logo.email === cookieEmail) ?
                                         <div className="row">
                                             <div className="col s5">
                                                 <div className="panel-body">
@@ -327,12 +328,13 @@ class EditLogoScreen extends Component {
                                                         });
                                                     }}>
                                                         <div className="card-panel">
-                                                            <button className="btn btn-success " disabled={!this.isDisabled()}
-                                                                style={{ cursor: !this.isDisabled() ? 'initial' : 'pointer' }}>Submit</button> <p style={{
+                                                            <button className="btn btn-success" disabled={!this.isDisabled()} onClick={() => this.setState({submitting: true})}
+                                                                style={{ cursor: !this.isDisabled() ? 'initial' : 'pointer' }}>Submit<i className="material-icons right tiny">send</i></button> <p style={{
                                                                     visibility: !this.isDisabled() ? 'visible' : 'hidden',
                                                                     display: 'inline-block',
                                                                     color: 'grey'
                                                                 }}>Name must be non-null and cannot be all spaces</p>
+                                                                {this.state.submitting ? <p>Saving...</p> : <p></p>}
                                                             <div className="card blue-grey darken-1">
                                                                 <div className="card-content white-text">
                                                                     <span className="card-title">Text
@@ -531,11 +533,5 @@ class EditLogoScreen extends Component {
         );
     }
 }
-
-const valStyle = {
-    display: 'inline-block',
-    marginLeft: '10px',
-    color: '#9758d6'
-};
 
 export default EditLogoScreen;
