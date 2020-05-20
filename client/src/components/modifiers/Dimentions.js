@@ -24,7 +24,7 @@ class Dimentions extends Component {
     }
 
     isDisabled() {
-        return this.state.dimentions[0] < 0 || this.state.dimentions[1] < 0 || isNaN(this.state.dimentions[0]) || isNaN(this.state.dimentions[1])
+        return this.state.dimentions[0] < 0 || this.state.dimentions[1] < 0 || isNaN(this.state.dimentions[0]) || isNaN(this.state.dimentions[1]) || this.state.dimentions[0] > 10000 || this.state.dimentions[1] > 10000
     }
 
     doSubmit = () => {
@@ -53,6 +53,7 @@ class Dimentions extends Component {
                     </div>
                 </div>
                 <button className={submitClass} onClick={this.doSubmit}>Submit</button>
+                <p>Values must be greater than zero and lower than 10,001</p>
             </div>
         );
     }
