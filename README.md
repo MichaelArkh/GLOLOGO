@@ -2,12 +2,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Example Quieries for graphiQL
 
-###### Adding a logo with all colors white, text "hello world" and random values for everything else
+###### Adding a logo for a sample email and sample texts
 
 ```
 mutation {
-  addLogo(text: "hello world", color: "#ffffff", fontSize: 21, backgroundColor: "#ffffff",
-    borderColor: "#ffffff", borderRadius: 20, borderWidth: 21, padding: 20, margin: 4){
+  addLogo(email: "sample@gmail.com", name: "test1", text: [{content: "Hello World", color: "#000000", fontSize: 30, position:[1,2], index: 0}, {content: "World", color: "#ffffff", fontSize: 10, position:[3,4], index: 0}], imgs:[], dimensions: [200,300], backgroundColor: "#ffffff",
+    borderColor: "#ffffff", borderRadius: 20, borderWidth: 21, padding: 20, margin: 20){
     _id
   }
 }
@@ -27,18 +27,34 @@ query{
 ```
 This gives "color": "#ffffff", "backgroundColor": "#ffffff", "padding": 20 which is correct
 
-###### Editing all colors to black for the logo we added, keep in mind all fields are required
-
+###### Retrieving the logos from an email
 ```
-mutation {
-  updateLogo(id: "5e8a45f987539a3420a3a9d9", text: "hello world", color: "#000000", fontSize: 21, backgroundColor: "#000000",
-    borderColor: "#000000", borderRadius: 20, borderWidth: 21, padding: 20, margin: 4){
+query {
+  logosE(email: "sample@gmail.com") {
     _id
-    borderColor
+    email
+    text {
+      content
+    }
   }
 }
 ```
-This gives "_id": "5e8a45f987539a3420a3a9d9", "borderColor": "#000000" which shows it has succeeded
+
+###### Editing the sample logo text
+
+```
+mutation {
+  updateLogo(id: "5e8a45f987539a3420a3a9d9", name: "test1", email: "sample@gmail.com", imgs:[], text: [{content: "World", color: "#000000", fontSize: 30, position:[1,2], index: 0}, {content: "Hello", color: "#ffffff", fontSize: 10, position:[3,4], index: 0}], dimensions:[200,300], backgroundColor: "#000000",
+    borderColor: "#000000", borderRadius: 20, borderWidth: 21, padding: 20, margin: 20){
+    _id
+    email
+    text {
+      content
+    }
+  }
+}
+```
+This gives "_id": "5e8a45f987539a3420a3a9d9", "borderColor": "#000000" and the new text which shows it has succeeded
 
 ###### Retreiving all logos, and their id, fontsize, and text
 
@@ -47,7 +63,9 @@ query{
   logos{
     _id,
     fontSize,
-    text
+    text {
+      content
+    }
   }
 }
 ```
@@ -58,6 +76,26 @@ query{
 mutation {
   removeLogo(id: "5e8a45f987539a3420a3a9d9"){
     _id
+  }
+}
+```
+
+###### Removing the logos for a specific email
+
+```
+mutation {
+	removeLogos(email: "sample@gmail.com"){
+     deletedCount
+	}
+}
+```
+
+###### Removing all data
+
+```
+mutation {
+  purgeData {
+    deletedCount
   }
 }
 ```
