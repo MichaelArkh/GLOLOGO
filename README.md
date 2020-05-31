@@ -1,102 +1,33 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## GLOLOGO: Create any one of your favorite logos!
+---
+Demo [here](http://logos.mgelsk.com)
 
-## Example Quieries for graphiQL
+GLOLOGO is a single page application designed as full fledged logo maker. It includes the ability to login and add multiple texts and images. Texts and images are fully customizable and can be rearranged, recolored, and resized as the user wishes.
 
-###### Adding a logo for a sample email and sample texts
+#### Tech Stack:
+* Mogodb
+* Express
+* React
+* Nodejs
 
-```
-mutation {
-  addLogo(email: "sample@gmail.com", name: "test1", text: [{content: "Hello World", color: "#000000", fontSize: 30, position:[1,2], index: 0}, {content: "World", color: "#ffffff", fontSize: 10, position:[3,4], index: 0}], imgs:[], dimensions: [200,300], backgroundColor: "#ffffff",
-    borderColor: "#ffffff", borderRadius: 20, borderWidth: 21, padding: 20, margin: 20){
-    _id
-  }
-}
-```
-This returns the id and in this example it is "5e8a45f987539a3420a3a9d9"
+#### Technologies:
+* Graphql
+* Passportjs
+* Json Web Token
+* Mongoose
 
-###### Retrieving the logo we added using its id, and getting only its color, backgroundColor, and padding
+#### Screenshots
+---
+##### Welcome Page
+![welcome](https://user-images.githubusercontent.com/38901444/83342374-bb691980-a2bc-11ea-99da-f8b731976cea.PNG)
+##### Create/Edit Page
+![Capture](https://user-images.githubusercontent.com/38901444/83342371-bad08300-a2bc-11ea-9ea5-e13cfea72f7f.PNG)
+##### Home Page
+![Capture3](https://user-images.githubusercontent.com/38901444/83342373-bad08300-a2bc-11ea-94c4-d8f4c49dd57c.PNG)
+##### View Logo Page
+![Capture1](https://user-images.githubusercontent.com/38901444/83342372-bad08300-a2bc-11ea-9528-7f77d1521ee1.PNG)
 
-```
-query{
-  logo(id: "5e8a45f987539a3420a3a9d9") {
-    color
-    backgroundColor
-    padding
-  }
-}
-```
-This gives "color": "#ffffff", "backgroundColor": "#ffffff", "padding": 20 which is correct
 
-###### Retrieving the logos from an email
-```
-query {
-  logosE(email: "sample@gmail.com") {
-    _id
-    email
-    text {
-      content
-    }
-  }
-}
-```
 
-###### Editing the sample logo text
 
-```
-mutation {
-  updateLogo(id: "5e8a45f987539a3420a3a9d9", name: "test1", email: "sample@gmail.com", imgs:[], text: [{content: "World", color: "#000000", fontSize: 30, position:[1,2], index: 0}, {content: "Hello", color: "#ffffff", fontSize: 10, position:[3,4], index: 0}], dimensions:[200,300], backgroundColor: "#000000",
-    borderColor: "#000000", borderRadius: 20, borderWidth: 21, padding: 20, margin: 20){
-    _id
-    email
-    text {
-      content
-    }
-  }
-}
-```
-This gives "_id": "5e8a45f987539a3420a3a9d9", "borderColor": "#000000" and the new text which shows it has succeeded
-
-###### Retreiving all logos, and their id, fontsize, and text
-
-```
-query{
-  logos{
-    _id,
-    fontSize,
-    text {
-      content
-    }
-  }
-}
-```
-
-###### Removing the logo we added
-
-```
-mutation {
-  removeLogo(id: "5e8a45f987539a3420a3a9d9"){
-    _id
-  }
-}
-```
-
-###### Removing the logos for a specific email
-
-```
-mutation {
-	removeLogos(email: "sample@gmail.com"){
-     deletedCount
-	}
-}
-```
-
-###### Removing all data
-
-```
-mutation {
-  purgeData {
-    deletedCount
-  }
-}
-```
 
