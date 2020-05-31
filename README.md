@@ -2,7 +2,7 @@
 ---
 Demo [here](http://logos.mgelsk.com)
 
-GLOLOGO is a single page application designed as full fledged logo maker. It includes the ability to login and add multiple texts and images. Texts and images are fully customizable and can be rearranged, recolored, and resized as the user wishes.
+GLOLOGO is a single page application designed as a full fledged logo maker. It includes the ability to login and add multiple texts and images. Texts and images are fully customizable and can be rearranged, recolored, and resized as the user wishes.
 
 #### Tech Stack:
 * Mogodb
