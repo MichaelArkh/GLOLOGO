@@ -55,7 +55,7 @@ class Navbar extends Component {
             <div className="container " style={divStyle}>
                 {login ?
                     <div className="row" style={{marginBottom: '0px'}}>
-                        <div className="col s4"><h5><Link to="/">GologoLo Home</Link></h5></div>
+                        <div className="col s4"><h5><Link to="/">GloLogo Home</Link></h5></div>
                         <div className="col s4 center-align"><h5>{this.state.currentScreen}</h5></div>
                         <div className="col s4 center-align">
                             <Link to="/"><button className="waves-effect waves-light btn-large" style={{lineHeight: '20px'}} onClick={this.logout}>{"Logout: " + this.state.email}</button></Link>
@@ -66,7 +66,7 @@ class Navbar extends Component {
                     
                     <div className="row" style={{marginBottom: '0px', position: 'relative', height:'100%'}}>
                         <style>{modalStyle}</style>
-                        <div className="col s6"><h5><Link to="/">GologoLo Home</Link></h5></div>
+                        <div className="col s6"><h5><Link to="/">GloLogo Home</Link></h5></div>
                         <div className="col s3 center-align" style={{borderLeft: '2px solid', height: '100%', borderRight: '2px solid'}}>
                             {/* <Modal trigger={<button className="waves-effect waves-light btn-large">Register</button>} header="Register">
                                 <div className="center-align"><a href="http://localhost:3000/auth/google"><img alt="google-login" src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" /></a></div>

@@ -94,7 +94,7 @@ class HomeScreen extends Component {
                                         <div className="col s8">
                                             <div id="home_banner_container">
                                                 @todo<br />
-                                    Gologolo
+                                    GloLogo
                                 </div>
                                             <div>
                                                 <Link id="add_logo_button" to="/create">

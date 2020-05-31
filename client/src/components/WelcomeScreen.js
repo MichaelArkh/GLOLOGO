@@ -9,10 +9,10 @@ class WelcomeScreen extends Component {
             <div><Navbar currentScreen="Welcome Screen" />
                 <div className="container">
                     <div className="row" style={{border: '2px solid', marginTop: '30px'}}>
-                        <h4>Welcome to GologoLo</h4>
+                        <h4>Welcome to GloLogo</h4>
                         <div className="center-align" style={{width: '300px', margin: 'auto'}}>
                             <br />
-                            <p>The best logo making app based on the MERN Stack.<br /><br />
+                            <p>A logo making app based on the MERN Stack.<br /><br />
                             
                             Now with: Image options, mutiple texts, and click and drag functionality<br /><br />
                             
